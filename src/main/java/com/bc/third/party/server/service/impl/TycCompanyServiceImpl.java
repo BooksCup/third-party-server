@@ -124,6 +124,27 @@ public class TycCompanyServiceImpl implements TycCompanyService {
         return tycCompanyChangeInfoList;
     }
 
+    /**
+     * 通过ID获取企业法律诉讼列表(天眼查)
+     *
+     * @param token     天眼查的token
+     * @param companyId 企业ID
+     * @return 企业法律诉讼列表
+     */
+    @Override
+    public List<TycCompanyLawSuit> getTycCompanyLawSuitListByCompanyId(String token, String companyId) {
+        String url = "http://open.api.tianyancha.com/services/open/jr/lawSuit/2.0?id=" + companyId;
+        Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+        headerMap.put("Authorization", token);
+        String result = HttpUtil.doGet(url, headerMap);
+
+        TycBaseResponse<Result<TycCompanyLawSuit>> tycBaseResponse = JSON.parseObject(result,
+                new TypeReference<TycBaseResponse<Result<TycCompanyLawSuit>>>() {
+                });
+        List<TycCompanyLawSuit> tycCompanyLawSuitList = tycBaseResponse.getResult().getItems();
+        return tycCompanyLawSuitList;
+    }
+
 
     /**
      * 通过ID获取企业基本信息(DB)
@@ -155,8 +176,18 @@ public class TycCompanyServiceImpl implements TycCompanyService {
      * @param tycCompanyChangeInfo 企业变更记录
      */
     @Override
-    public void addTycCompanyHolder(TycCompanyChangeInfo tycCompanyChangeInfo) {
+    public void addTycCompanyChangeInfo(TycCompanyChangeInfo tycCompanyChangeInfo) {
         mongoTemplate.save(tycCompanyChangeInfo);
+    }
+
+    /**
+     * 新增企业法律诉讼
+     *
+     * @param tycCompanyLawSuit 企业法律诉讼
+     */
+    @Override
+    public void addTycCompanyLawSuit(TycCompanyLawSuit tycCompanyLawSuit) {
+        mongoTemplate.save(tycCompanyLawSuit);
     }
 
     /**
@@ -187,4 +218,17 @@ public class TycCompanyServiceImpl implements TycCompanyService {
         return tycCompanyChangeInfoList;
     }
 
+    /**
+     * 根据企业ID获取企业法律诉讼列表(DB)
+     *
+     * @param companyId 企业ID
+     * @return 企业法律诉讼列表
+     */
+    @Override
+    public List<TycCompanyLawSuit> getTycCompanyLawSuitListByCompanyId(String companyId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("companyId").is(companyId));
+        List<TycCompanyLawSuit> tycCompanyLawSuitList = mongoTemplate.find(query, TycCompanyLawSuit.class);
+        return tycCompanyLawSuitList;
+    }
 }

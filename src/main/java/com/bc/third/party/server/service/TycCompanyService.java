@@ -3,6 +3,7 @@ package com.bc.third.party.server.service;
 import com.bc.third.party.server.entity.company.tyc.TycCompany;
 import com.bc.third.party.server.entity.company.tyc.TycCompanyChangeInfo;
 import com.bc.third.party.server.entity.company.tyc.TycCompanyHolder;
+import com.bc.third.party.server.entity.company.tyc.TycCompanyLawSuit;
 
 import java.util.List;
 
@@ -65,6 +66,15 @@ public interface TycCompanyService {
     List<TycCompanyChangeInfo> getTycCompanyChangeInfoListByCompanyId(String token, String companyId);
 
     /**
+     * 通过ID获取企业法律诉讼列表(天眼查)
+     *
+     * @param token     天眼查的token
+     * @param companyId 企业ID
+     * @return 企业法律诉讼列表
+     */
+    List<TycCompanyLawSuit> getTycCompanyLawSuitListByCompanyId(String token, String companyId);
+
+    /**
      * 新增企业股东
      *
      * @param tycCompanyHolder 企业股东
@@ -76,7 +86,14 @@ public interface TycCompanyService {
      *
      * @param tycCompanyChangeInfo 企业变更记录
      */
-    void addTycCompanyHolder(TycCompanyChangeInfo tycCompanyChangeInfo);
+    void addTycCompanyChangeInfo(TycCompanyChangeInfo tycCompanyChangeInfo);
+
+    /**
+     * 新增企业法律诉讼
+     *
+     * @param tycCompanyLawSuit 企业法律诉讼
+     */
+    void addTycCompanyLawSuit(TycCompanyLawSuit tycCompanyLawSuit);
 
     /**
      * 根据企业ID获取企业股东列表(DB)
@@ -93,4 +110,13 @@ public interface TycCompanyService {
      * @return 企业变更记录列表
      */
     List<TycCompanyChangeInfo> getTycCompanyChangeInfoListByCompanyId(String companyId);
+
+    /**
+     * 根据企业ID获取企业法律诉讼列表(DB)
+     *
+     * @param companyId 企业ID
+     * @return 企业法律诉讼列表
+     */
+    List<TycCompanyLawSuit> getTycCompanyLawSuitListByCompanyId(String companyId);
+
 }

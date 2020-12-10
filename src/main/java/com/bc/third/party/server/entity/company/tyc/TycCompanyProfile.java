@@ -13,6 +13,7 @@ public class TycCompanyProfile {
     private TycCompany tycCompany;
     private List<TycCompanyHolder> tycCompanyHolderList;
     private List<TycCompanyChangeInfo> tycCompanyChangeInfoList;
+    private List<TycCompanyLawSuit> tycCompanyLawSuitList;
 
     public TycCompany getTycCompany() {
         return tycCompany;
@@ -36,5 +37,13 @@ public class TycCompanyProfile {
 
     public void setTycCompanyChangeInfoList(List<TycCompanyChangeInfo> tycCompanyChangeInfoList) {
         this.tycCompanyChangeInfoList = tycCompanyChangeInfoList;
+    }
+
+    public List<TycCompanyLawSuit> getTycCompanyLawSuitList() {
+        return tycCompanyLawSuitList;
+    }
+
+    public void setTycCompanyLawSuitList(List<TycCompanyLawSuit> tycCompanyLawSuitList) {
+        this.tycCompanyLawSuitList = tycCompanyLawSuitList;
     }
 }

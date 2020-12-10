@@ -1,10 +1,7 @@
 package com.bc.third.party.server.controller.company.tyc;
 
 import com.bc.third.party.server.entity.SystemConfig;
-import com.bc.third.party.server.entity.company.tyc.TycCompany;
-import com.bc.third.party.server.entity.company.tyc.TycCompanyChangeInfo;
-import com.bc.third.party.server.entity.company.tyc.TycCompanyHolder;
-import com.bc.third.party.server.entity.company.tyc.TycCompanyProfile;
+import com.bc.third.party.server.entity.company.tyc.*;
 import com.bc.third.party.server.service.SystemConfigService;
 import com.bc.third.party.server.service.TycCompanyService;
 import com.bc.third.party.server.utils.CommonUtil;
@@ -91,6 +88,10 @@ public class TycCompanyController {
             List<TycCompanyChangeInfo> tycCompanyChangeInfoList = getAndSaveTycCompanyChangeInfoList(companyId);
             tycCompanyProfile.setTycCompanyChangeInfoList(tycCompanyChangeInfoList);
 
+            // 法律诉讼列表
+            List<TycCompanyLawSuit> tycCompanyLawSuitList = getAndSaveTycCompanyLawSuitList(companyId);
+            tycCompanyProfile.setTycCompanyLawSuitList(tycCompanyLawSuitList);
+
             responseEntity = new ResponseEntity<>(tycCompanyProfile, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,6 +143,27 @@ public class TycCompanyController {
     }
 
     /**
+     * 获取企业法律诉讼列表
+     *
+     * @param companyId 企业ID
+     * @return 企业法律诉讼列表
+     */
+    @ApiOperation(value = "获取企业法律诉讼列表", notes = "获取企业法律诉讼列表")
+    @GetMapping(value = "/{companyId}/lawSuit")
+    public ResponseEntity<List<TycCompanyLawSuit>> getTycCompanyLawSuitListByCompanyId(
+            @PathVariable String companyId) {
+        ResponseEntity<List<TycCompanyLawSuit>> responseEntity;
+        try {
+            List<TycCompanyLawSuit> tycCompanyLawSuitList = getAndSaveTycCompanyLawSuitList(companyId);
+            responseEntity = new ResponseEntity<>(tycCompanyLawSuitList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    /**
      * 获取并保存企业股东列表
      *
      * @param companyId 企业ID
@@ -178,10 +200,32 @@ public class TycCompanyController {
             for (TycCompanyChangeInfo tycCompanyChangeInfo : tycCompanyChangeInfoList) {
                 tycCompanyChangeInfo.setCompanyId(companyId);
                 tycCompanyChangeInfo.setId(CommonUtil.generateId());
-                tycCompanyService.addTycCompanyHolder(tycCompanyChangeInfo);
+                tycCompanyService.addTycCompanyChangeInfo(tycCompanyChangeInfo);
             }
         }
         return tycCompanyChangeInfoList;
+    }
+
+    /**
+     * 获取并保存企业法律诉讼列表
+     *
+     * @param companyId 企业ID
+     * @return 企业法律诉讼列表
+     */
+    private List<TycCompanyLawSuit> getAndSaveTycCompanyLawSuitList(String companyId) {
+        SystemConfig systemConfig = systemConfigService.getSystemConfig();
+
+        List<TycCompanyLawSuit> tycCompanyLawSuitList = tycCompanyService.getTycCompanyLawSuitListByCompanyId(companyId);
+        if (CollectionUtils.isEmpty(tycCompanyLawSuitList)) {
+            tycCompanyLawSuitList = tycCompanyService.getTycCompanyLawSuitListByCompanyId(systemConfig.getTycToken(), companyId);
+            for (TycCompanyLawSuit tycCompanyLawSuit : tycCompanyLawSuitList) {
+                tycCompanyLawSuit.setLawSuitId(tycCompanyLawSuit.getId());
+                tycCompanyLawSuit.setCompanyId(companyId);
+                tycCompanyLawSuit.setId(CommonUtil.generateId());
+                tycCompanyService.addTycCompanyLawSuit(tycCompanyLawSuit);
+            }
+        }
+        return tycCompanyLawSuitList;
     }
 
 }
