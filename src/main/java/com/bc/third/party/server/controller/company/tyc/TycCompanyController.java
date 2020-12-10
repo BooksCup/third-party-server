@@ -141,6 +141,12 @@ public class TycCompanyController {
         return responseEntity;
     }
 
+    /**
+     * 获取并保存企业股东列表
+     *
+     * @param companyId 企业ID
+     * @return 企业股东列表
+     */
     private List<TycCompanyHolder> getAndSaveTycCompanyHolderList(String companyId) {
         SystemConfig systemConfig = systemConfigService.getSystemConfig();
 
@@ -157,6 +163,12 @@ public class TycCompanyController {
         return tycCompanyHolderList;
     }
 
+    /**
+     * 获取并保存企业变更记录列表
+     *
+     * @param companyId 企业ID
+     * @return 企业变更记录列表
+     */
     private List<TycCompanyChangeInfo> getAndSaveTycCompanyChangeInfoList(String companyId) {
         SystemConfig systemConfig = systemConfigService.getSystemConfig();
 

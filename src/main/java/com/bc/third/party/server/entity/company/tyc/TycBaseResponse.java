@@ -1,7 +1,13 @@
 package com.bc.third.party.server.entity.company.tyc;
 
 
-public class TycBaseResponse <T> {
+/**
+ * 返回值(天眼查)
+ *
+ * @param <T> 泛型
+ * @author zhou
+ */
+public class TycBaseResponse<T> {
 
     private String error_code;
     private String reason;

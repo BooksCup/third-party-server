@@ -2,6 +2,12 @@ package com.bc.third.party.server.entity.company.tyc;
 
 import java.util.List;
 
+/**
+ * 列表返回值(天眼查)
+ *
+ * @param <T> 泛型
+ * @author zhou
+ */
 public class Result<T> {
 
     private List<T> items;

@@ -4,6 +4,11 @@ import com.bc.third.party.server.entity.company.tyc.holder.Capital;
 
 import java.util.List;
 
+/**
+ * 企业股东(天眼查)
+ *
+ * @author zhou
+ */
 public class TycCompanyHolder {
 
     private String holderId;

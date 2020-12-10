@@ -1,6 +1,12 @@
 package com.bc.third.party.server.entity.company.tyc.holder;
 
+/**
+ * 股东认缴
+ *
+ * @author zhou
+ */
 public class Capital {
+
     private String amomon;
     private String time;
     private String percent;
@@ -37,4 +43,5 @@ public class Capital {
     public void setPaymet(String paymet) {
         this.paymet = paymet;
     }
+
 }
