@@ -25,4 +25,10 @@
         #{data}
         )
     </insert>
+
+    <select id="getNotifyConfigByType" parameterType="String" resultMap="notifyConfig">
+        select *
+        from t_notify_config
+        where type = #{type}
+    </select>
 </mapper>

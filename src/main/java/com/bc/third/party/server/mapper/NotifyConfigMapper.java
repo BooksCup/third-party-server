@@ -16,4 +16,12 @@ public interface NotifyConfigMapper {
      */
     void addNotifyConfig(NotifyConfig notifyConfig);
 
+    /**
+     * 根据通知类型获取通知配置
+     *
+     * @param type 通知类型
+     * @return 通知配置
+     */
+    NotifyConfig getNotifyConfigByType(String type);
+
 }

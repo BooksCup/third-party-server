@@ -27,4 +27,15 @@ public class NotifyConfigServiceImpl implements NotifyConfigService {
     public void addNotifyConfig(NotifyConfig notifyConfig) {
         notifyConfigMapper.addNotifyConfig(notifyConfig);
     }
+
+    /**
+     * 根据通知类型获取通知配置
+     *
+     * @param type 通知类型
+     * @return 通知配置
+     */
+    @Override
+    public NotifyConfig getNotifyConfigByType(String type) {
+        return notifyConfigMapper.getNotifyConfigByType(type);
+    }
 }
