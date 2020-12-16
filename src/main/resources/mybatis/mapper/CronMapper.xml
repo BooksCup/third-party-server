@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.third.party.server.mapper.CronMapper">
+    <resultMap id="cron" type="com.bc.third.party.server.entity.Cron">
+        <id column="cron_id" property="id" jdbcType="VARCHAR"/>
+        <result column="cron_name" property="name" jdbcType="VARCHAR"/>
+        <result column="cron_service_type" property="serviceType" jdbcType="VARCHAR"/>
+        <result column="cron_rule" property="rule" jdbcType="VARCHAR"/>
+        <result column="cron_create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="cron_modify_time" property="modifyTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getCronList" resultMap="cron">
+        select *
+        from t_cron
+    </select>
+
+    <select id="getCronById" resultMap="cron" parameterType="String">
+        select *
+        from t_cron
+        where cron_id = #{cronId}
+    </select>
+</mapper>
