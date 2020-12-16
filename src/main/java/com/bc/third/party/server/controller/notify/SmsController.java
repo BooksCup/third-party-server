@@ -5,6 +5,7 @@ import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.NotifyConfig;
 import com.bc.third.party.server.entity.SmsConfig;
 import com.bc.third.party.server.entity.SmsResponse;
+import com.bc.third.party.server.entity.alisms.SmsSendDetailDTO;
 import com.bc.third.party.server.enums.ResponseMsg;
 import com.bc.third.party.server.service.NotifyConfigService;
 import com.bc.third.party.server.service.SmsService;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 短信
@@ -67,6 +70,25 @@ public class SmsController {
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity<>(ResponseMsg.SEND_SMS_ERROR.getResponseCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    @ApiOperation(value = "获取短信发送记录和发送状态", notes = "获取短信发送记录和发送状态")
+    @PostMapping(value = "/sendDetails")
+    public ResponseEntity<List<SmsSendDetailDTO>> querySendDetails(
+            @RequestParam String phone,
+            @RequestParam String sendDate,
+            @RequestParam(required = false) String bizId,
+            @RequestParam(required = false, defaultValue = "1") String page,
+            @RequestParam(required = false, defaultValue = "10") String limit) {
+        ResponseEntity<List<SmsSendDetailDTO>> responseEntity;
+        try {
+            List<SmsSendDetailDTO> smsSendDetailDTOList = smsService.querySendDetails(phone, bizId, sendDate, page, limit);
+            responseEntity = new ResponseEntity<>(smsSendDetailDTOList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
