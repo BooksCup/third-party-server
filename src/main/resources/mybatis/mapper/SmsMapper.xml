@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.third.party.server.mapper.SmsMapper">
+
+    <insert id="addSmsResponse" parameterType="com.bc.third.party.server.entity.SmsResponse">
+        insert into t_sms_log
+        (
+        id,
+        phone,
+        biz_id,
+        code,
+        message,
+        request_id,
+        create_time
+        )
+        values
+        (
+        #{id},
+        #{phone},
+        #{bizId},
+        #{code},
+        #{message},
+        #{requestId},
+        now()
+        )
+    </insert>
+
+</mapper>

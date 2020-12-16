@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.NotifyConfig;
 import com.bc.third.party.server.entity.SmsConfig;
+import com.bc.third.party.server.entity.SmsResponse;
 import com.bc.third.party.server.enums.ResponseMsg;
 import com.bc.third.party.server.service.NotifyConfigService;
+import com.bc.third.party.server.service.SmsService;
 import com.bc.third.party.server.utils.SmsUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,9 @@ public class SmsController {
 
     @Resource
     private NotifyConfigService notifyConfigService;
+
+    @Resource
+    private SmsService smsService;
 
     /**
      * 发送短信
@@ -52,7 +57,12 @@ public class SmsController {
                 return new ResponseEntity<>(ResponseMsg.SMS_CONFIG_NOT_CORRECT.getResponseCode(), HttpStatus.BAD_REQUEST);
             }
             SmsConfig smsConfig = JSON.parseObject(notifyConfig.getData(), SmsConfig.class);
-            SmsUtil.sendSms(smsConfig, phones, signName, templateCode, templateParam);
+            SmsResponse smsResponse = SmsUtil.sendSms(smsConfig, phones, signName, templateCode, templateParam);
+            smsResponse.setPhone(phones);
+
+            // 持久化smsResponse
+            smsService.addSmsResponse(smsResponse);
+
             responseEntity = new ResponseEntity<>(ResponseMsg.SEND_SMS_SUCCESS.getResponseCode(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
