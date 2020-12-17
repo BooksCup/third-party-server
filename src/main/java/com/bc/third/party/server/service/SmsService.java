@@ -31,4 +31,19 @@ public interface SmsService {
      */
     List<SmsSendDetailDTO> querySendDetails(String phone, String bizId, String sendDate, String page, String limit);
 
+    /**
+     * 根据处理状态获取短信回执列表
+     *
+     * @param state 处理状态
+     * @return 短信回执列表
+     */
+    List<SmsResponse> getSmsResponseListByState(String state);
+
+    /**
+     * 修改短信回执
+     *
+     * @param smsResponse 短信回执
+     */
+    void updateSmsResponse(SmsResponse smsResponse);
+
 }

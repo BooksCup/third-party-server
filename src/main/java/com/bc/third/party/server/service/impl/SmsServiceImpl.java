@@ -40,6 +40,7 @@ public class SmsServiceImpl implements SmsService {
         smsMapper.addSmsResponse(smsResponse);
     }
 
+
     /**
      * 查询短信发送记录和发送状态
      *
@@ -61,6 +62,27 @@ public class SmsServiceImpl implements SmsService {
         List<SmsSendDetailDTO> smsSendDetailDTOList = SmsUtil.querySendDetails(smsConfig,
                 phone, bizId, sendDate, page, limit);
         return smsSendDetailDTOList;
+    }
+
+    /**
+     * 根据处理状态获取短信回执列表
+     *
+     * @param state 处理状态
+     * @return 短信回执列表
+     */
+    @Override
+    public List<SmsResponse> getSmsResponseListByState(String state) {
+        return smsMapper.getSmsResponseListByState(state);
+    }
+
+    /**
+     * 修改短信回执
+     *
+     * @param smsResponse 短信回执
+     */
+    @Override
+    public void updateSmsResponse(SmsResponse smsResponse) {
+        smsMapper.updateSmsResponse(smsResponse);
     }
 
 }
