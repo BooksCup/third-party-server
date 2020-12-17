@@ -32,12 +32,12 @@ public interface SmsService {
     List<SmsSendDetailDTO> querySendDetails(String phone, String bizId, String sendDate, String page, String limit);
 
     /**
-     * 根据处理状态获取短信回执列表
+     * 根据未处理短信回执列表
      *
      * @param state 处理状态
-     * @return 短信回执列表
+     * @return 未处理短信回执列表
      */
-    List<SmsResponse> getSmsResponseListByState(String state);
+    List<SmsResponse> getPendingSmsResponseList(String state);
 
     /**
      * 修改短信回执
@@ -45,5 +45,11 @@ public interface SmsService {
      * @param smsResponse 短信回执
      */
     void updateSmsResponse(SmsResponse smsResponse);
+
+    /**
+     * 处理短信回执
+     * 查询短信发送记录和发送状态
+     */
+    void handlePendingSmsResponse();
 
 }

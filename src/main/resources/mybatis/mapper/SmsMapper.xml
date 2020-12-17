@@ -35,10 +35,11 @@
         )
     </insert>
 
-    <select id="getSmsResponseListByState" parameterType="String" resultMap="smsResponse">
+    <select id="getPendingSmsResponseList" parameterType="String" resultMap="smsResponse">
         select *
         from t_sms_log
         where state = #{state}
+        or receive_date is null
     </select>
 
     <update id="updateSmsResponse" parameterType="com.bc.third.party.server.entity.SmsResponse">

@@ -10,7 +10,9 @@ import com.bc.third.party.server.mapper.NotifyConfigMapper;
 import com.bc.third.party.server.mapper.SmsMapper;
 import com.bc.third.party.server.service.SmsService;
 import com.bc.third.party.server.utils.SmsUtil;
+import com.bc.third.party.server.utils.TimeUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -65,14 +67,14 @@ public class SmsServiceImpl implements SmsService {
     }
 
     /**
-     * 根据处理状态获取短信回执列表
+     * 根据未处理短信回执列表
      *
      * @param state 处理状态
-     * @return 短信回执列表
+     * @return 未处理短信回执列表
      */
     @Override
-    public List<SmsResponse> getSmsResponseListByState(String state) {
-        return smsMapper.getSmsResponseListByState(state);
+    public List<SmsResponse> getPendingSmsResponseList(String state) {
+        return smsMapper.getPendingSmsResponseList(state);
     }
 
     /**
@@ -83,6 +85,33 @@ public class SmsServiceImpl implements SmsService {
     @Override
     public void updateSmsResponse(SmsResponse smsResponse) {
         smsMapper.updateSmsResponse(smsResponse);
+    }
+
+    /**
+     * 处理短信回执
+     * 查询短信发送记录和发送状态
+     */
+    @Override
+    public void handlePendingSmsResponse() {
+        List<SmsResponse> smsResponseList = smsMapper.getPendingSmsResponseList(Constant.SMS_RESPONSE_STATE_PENDING);
+        for (SmsResponse smsResponse : smsResponseList) {
+            String sendDate = TimeUtil.formatSendTime(smsResponse.getCreateTime());
+            List<SmsSendDetailDTO> smsSendDetailDTOList = querySendDetails(smsResponse.getPhone(),
+                    smsResponse.getBizId(), sendDate, Constant.DEFAULT_PAGE, Constant.DEFAULT_PAGE_SIZE);
+
+            if (!CollectionUtils.isEmpty(smsSendDetailDTOList)) {
+                SmsSendDetailDTO smsSendDetailDTO = smsSendDetailDTOList.get(0);
+                smsResponse.setSendDate(smsSendDetailDTO.getSendDate());
+                smsResponse.setReceiveDate(smsSendDetailDTO.getReceiveDate());
+                smsResponse.setTemplateCode(smsSendDetailDTO.getTemplateCode());
+                smsResponse.setContent(smsSendDetailDTO.getContent());
+                smsResponse.setStatus(smsSendDetailDTO.getSendStatus());
+                smsResponse.setErrCode(smsSendDetailDTO.getErrCode());
+            }
+            // 更新短信回执处理状态
+            smsResponse.setState(Constant.SMS_RESPONSE_STATE_SOLVED);
+            smsMapper.updateSmsResponse(smsResponse);
+        }
     }
 
 }
