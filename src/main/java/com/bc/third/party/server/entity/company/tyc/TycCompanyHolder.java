@@ -10,7 +10,7 @@ public class TycCompanyHolder {
     private String companyId;
     private String name;
     private String alias;
-    private Long id;
+    private String id;
     private String logo;
     private Integer type;
     private List<Capital> capital;
@@ -48,11 +48,11 @@ public class TycCompanyHolder {
         this.alias = alias;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

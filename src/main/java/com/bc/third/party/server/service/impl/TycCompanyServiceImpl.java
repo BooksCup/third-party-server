@@ -10,8 +10,11 @@ import com.bc.third.party.server.entity.company.tyc.TycCompanyHolder;
 import com.bc.third.party.server.mapper.TycCompanyMapper;
 import com.bc.third.party.server.service.TycCompanyService;
 import com.bc.third.party.server.utils.HttpUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -29,6 +32,9 @@ public class TycCompanyServiceImpl implements TycCompanyService {
     @Resource
     private TycCompanyMapper tycCompanyMapper;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     /**
      * 保存企业
      *
@@ -36,7 +42,7 @@ public class TycCompanyServiceImpl implements TycCompanyService {
      */
     @Override
     public void addTycCompany(TycCompany tycCompany) {
-        tycCompanyMapper.addTycCompany(tycCompany);
+        mongoTemplate.save(tycCompany);
     }
 
     /**
@@ -62,13 +68,13 @@ public class TycCompanyServiceImpl implements TycCompanyService {
     /**
      * 通过ID获取企业基本信息(天眼查)
      *
-     * @param token 天眼查的token
-     * @param id    企业ID
+     * @param token     天眼查的token
+     * @param companyId 企业ID
      * @return 企业基本信息
      */
     @Override
-    public TycCompany getTycCompanyById(String token, String id) {
-        String url = "http://open.api.tianyancha.com/services/open/ic/baseinfo/2.0?id=" + id;
+    public TycCompany getTycCompanyByCompanyId(String token, String companyId) {
+        String url = "http://open.api.tianyancha.com/services/open/ic/baseinfo/2.0?id=" + companyId;
         Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         headerMap.put("Authorization", token);
         String result = HttpUtil.doGet(url, headerMap);
@@ -82,13 +88,13 @@ public class TycCompanyServiceImpl implements TycCompanyService {
     /**
      * 通过ID获取企业股东列表(天眼查)
      *
-     * @param token 天眼查的token
-     * @param id    企业ID
+     * @param token     天眼查的token
+     * @param companyId 企业ID
      * @return 企业股东列表
      */
     @Override
-    public List<TycCompanyHolder> getTycCompanyHolderById(String token, String id) {
-        String url = "http://open.api.tianyancha.com/services/open/ic/holder/2.0?id=" + id;
+    public List<TycCompanyHolder> getTycCompanyHolderByCompanyId(String token, String companyId) {
+        String url = "http://open.api.tianyancha.com/services/open/ic/holder/2.0?id=" + companyId;
         Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         headerMap.put("Authorization", token);
         String result = HttpUtil.doGet(url, headerMap);
@@ -104,16 +110,39 @@ public class TycCompanyServiceImpl implements TycCompanyService {
     /**
      * 通过ID获取企业基本信息(DB)
      *
-     * @param id 企业ID
+     * @param companyId 企业ID
      * @return 企业基本信息
      */
     @Override
-    public TycCompany getTycCompanyById(String id) {
-        List<TycCompany> tycCompanyList = tycCompanyMapper.getTycCompanyListById(id);
-        if (!CollectionUtils.isEmpty(tycCompanyList)) {
-            return tycCompanyList.get(0);
-        }
-        return null;
+    public TycCompany getTycCompanyByCompanyId(String companyId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("companyId").is(companyId));
+        TycCompany tycCompany = mongoTemplate.findOne(query, TycCompany.class);
+        return tycCompany;
+    }
+
+    /**
+     * 新增企业股东
+     *
+     * @param tycCompanyHolder 企业股东
+     */
+    @Override
+    public void addTycCompanyHolder(TycCompanyHolder tycCompanyHolder) {
+        mongoTemplate.save(tycCompanyHolder);
+    }
+
+    /**
+     * 根据企业ID获取企业股东列表
+     *
+     * @param companyId 企业ID
+     * @return 企业股东列表
+     */
+    @Override
+    public List<TycCompanyHolder> getTycCompanyHolderListByCompanyId(String companyId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("companyId").is(companyId));
+        List<TycCompanyHolder> tycCompanyHolderList = mongoTemplate.find(query, TycCompanyHolder.class);
+        return tycCompanyHolderList;
     }
 
 }

@@ -10,6 +10,7 @@ import com.bc.third.party.server.utils.CommonUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -57,12 +58,12 @@ public class TycCompanyController {
     }
 
     /**
-     * 通过ID获取企业基本信息
+     * 通过ID获取企业信息
      *
      * @param id 企业ID
-     * @return 企业基本信息
+     * @return 企业信息
      */
-    @ApiOperation(value = "通过ID获取企业基本信息", notes = "通过ID获取企业基本信息")
+    @ApiOperation(value = "通过ID获取企业信息", notes = "通过ID获取企业信息")
     @GetMapping(value = "/{id}")
     public ResponseEntity<TycCompanyProfile> getTycCompanyById(
             @PathVariable String id) {
@@ -72,21 +73,27 @@ public class TycCompanyController {
             SystemConfig systemConfig = systemConfigService.getSystemConfig();
 
             // 企业基本信息
-            TycCompany tycCompany = tycCompanyService.getTycCompanyById(id);
+            TycCompany tycCompany = tycCompanyService.getTycCompanyByCompanyId(id);
             if (null == tycCompany) {
-                tycCompany = tycCompanyService.getTycCompanyById(systemConfig.getTycToken(), id);
-                tycCompany.setCompanyId(CommonUtil.generateId());
+                tycCompany = tycCompanyService.getTycCompanyByCompanyId(systemConfig.getTycToken(), id);
+                tycCompany.setCompanyId(tycCompany.getId());
+                tycCompany.setId(CommonUtil.generateId());
                 tycCompanyService.addTycCompany(tycCompany);
             }
             tycCompanyProfile.setTycCompany(tycCompany);
 
             // 企业股东
-            List<TycCompanyHolder> tycCompanyHolderList = tycCompanyService.getTycCompanyHolderById(systemConfig.getTycToken(), id);
-            tycCompanyProfile.setTycCompanyHolder(tycCompanyHolderList);
-            for (TycCompanyHolder tycCompanyHolder : tycCompanyHolderList){
-                tycCompanyHolder.setCompanyId(id);
+            List<TycCompanyHolder> tycCompanyHolderList = tycCompanyService.getTycCompanyHolderListByCompanyId(id);
+            if (CollectionUtils.isEmpty(tycCompanyHolderList)) {
+                tycCompanyHolderList = tycCompanyService.getTycCompanyHolderByCompanyId(systemConfig.getTycToken(), id);
+                for (TycCompanyHolder tycCompanyHolder : tycCompanyHolderList) {
+                    tycCompanyHolder.setHolderId(tycCompanyHolder.getId());
+                    tycCompanyHolder.setCompanyId(id);
+                    tycCompanyHolder.setId(CommonUtil.generateId());
+                    tycCompanyService.addTycCompanyHolder(tycCompanyHolder);
+                }
             }
-
+            tycCompanyProfile.setTycCompanyHolder(tycCompanyHolderList);
 
             responseEntity = new ResponseEntity<>(tycCompanyProfile, HttpStatus.OK);
         } catch (Exception e) {

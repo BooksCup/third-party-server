@@ -15,7 +15,7 @@ public class TycCompany {
     private String regCapital;
     private Integer companyType;
     private String name;
-    private Long id;
+    private String id;
     private String orgNumber;
     private Integer type;
     private String base;
@@ -116,11 +116,11 @@ public class TycCompany {
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

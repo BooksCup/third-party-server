@@ -31,27 +31,41 @@ public interface TycCompanyService {
     /**
      * 通过ID获取企业基本信息(天眼查)
      *
-     * @param token 天眼查的token
-     * @param id    企业ID
+     * @param token     天眼查的token
+     * @param companyId 企业ID
      * @return 企业基本信息
      */
-    TycCompany getTycCompanyById(String token, String id);
+    TycCompany getTycCompanyByCompanyId(String token, String companyId);
 
     /**
      * 通过ID获取企业基本信息(DB)
      *
-     * @param id 企业ID
+     * @param companyId 企业ID
      * @return 企业基本信息
      */
-    TycCompany getTycCompanyById(String id);
+    TycCompany getTycCompanyByCompanyId(String companyId);
 
     /**
      * 通过ID获取企业股东列表(天眼查)
      *
-     * @param token 天眼查的token
-     * @param id    企业ID
+     * @param token     天眼查的token
+     * @param companyId 企业ID
      * @return 企业股东列表
      */
-    List<TycCompanyHolder> getTycCompanyHolderById(String token, String id);
+    List<TycCompanyHolder> getTycCompanyHolderByCompanyId(String token, String companyId);
 
+    /**
+     * 新增企业股东
+     *
+     * @param tycCompanyHolder 企业股东
+     */
+    void addTycCompanyHolder(TycCompanyHolder tycCompanyHolder);
+
+    /**
+     * 根据企业ID获取企业股东列表
+     *
+     * @param companyId 企业ID
+     * @return 企业股东列表
+     */
+    List<TycCompanyHolder> getTycCompanyHolderListByCompanyId(String companyId);
 }
