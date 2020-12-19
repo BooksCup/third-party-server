@@ -3,6 +3,11 @@ package com.bc.third.party.server.entity.express.kuaidi100;
 
 import java.util.List;
 
+/**
+ * 查询物流轨迹信息返回
+ *
+ * @author zhou
+ */
 public class QueryTrackResult {
     private String message;
     private Integer state;

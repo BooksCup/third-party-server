@@ -7,6 +7,9 @@ package com.bc.third.party.server.enums.kuaidi100;
  */
 public enum ExpressCompany {
 
+    /**
+     * 快递公司及编码
+     */
     YUNDA("yunda", "韵达快递"),
     SHUNFENG("shunfeng", "顺丰速运"),
     JD("jd", "京东物流"),

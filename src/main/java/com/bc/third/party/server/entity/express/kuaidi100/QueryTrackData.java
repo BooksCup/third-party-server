@@ -1,5 +1,10 @@
 package com.bc.third.party.server.entity.express.kuaidi100;
 
+/**
+ * 查询物流轨迹信息返回
+ *
+ * @author zhou
+ */
 public class QueryTrackData {
     private String context;
     private String ftime;
