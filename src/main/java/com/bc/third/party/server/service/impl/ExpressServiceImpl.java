@@ -38,8 +38,6 @@ public class ExpressServiceImpl implements ExpressService {
         String key = systemConfig.getKuaidi100Key();
         String customer = systemConfig.getKuaidi100Customer();
         QueryTrackParam queryTrackParam = new QueryTrackParam();
-//        queryTrackParam.setCom("shunfeng");
-//        kuaidi100Param.setNum("SF1105868433564");
         queryTrackParam.setCom(com);
         queryTrackParam.setNum(num);
         queryTrackParam.setFrom("");
