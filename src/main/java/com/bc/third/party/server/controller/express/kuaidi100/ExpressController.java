@@ -5,10 +5,7 @@ import com.bc.third.party.server.service.ExpressService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -25,15 +22,16 @@ public class ExpressController {
     private ExpressService expressService;
 
     /**
-     * 查询物流轨迹信息
+     * 查询物流轨迹信息(支持跨域)
      *
      * @param com 快递公司编码
      * @param num 快递单号
      * @return ResponseEntity
      */
-    @ApiOperation(value = "查询物流轨迹信息", notes = "查询物流轨迹信息")
+    @CrossOrigin
+    @ApiOperation(value = "查询物流轨迹信息(支持跨域)", notes = "查询物流轨迹信息(支持跨域)")
     @GetMapping(value = "")
-    public ResponseEntity<QueryTrackResult> getExpressTrack(
+    public ResponseEntity<QueryTrackResult> getExpressTrackSupportCrossOrigin(
             @RequestParam String com, @RequestParam String num) {
         ResponseEntity<QueryTrackResult> responseEntity;
         try {
