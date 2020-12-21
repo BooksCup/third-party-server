@@ -74,6 +74,15 @@ public class SmsController {
         return responseEntity;
     }
 
+    /**
+     * 获取短信发送记录和发送状态
+     * @param phone  接收短信的手机号码
+     * @param sendDate 短信发送日期
+     * @param bizId
+     * @param page
+     * @param limit
+     * @return
+     */
     @ApiOperation(value = "获取短信发送记录和发送状态", notes = "获取短信发送记录和发送状态")
     @PostMapping(value = "/sendDetails")
     public ResponseEntity<List<SmsSendDetailDTO>> querySendDetails(
