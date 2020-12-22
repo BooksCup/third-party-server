@@ -1,9 +1,11 @@
 package com.bc.third.party.server.controller.company.tyc;
 
+import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.entity.SystemConfig;
 import com.bc.third.party.server.entity.company.tyc.TycCompany;
 import com.bc.third.party.server.service.SystemConfigService;
 import com.bc.third.party.server.service.TycCompanyService;
+import com.bc.third.party.server.utils.CommonUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +51,32 @@ public class TycCompanyController {
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    /**
+     * 通过ID获取企业基本信息
+     *
+     * @param id 企业ID
+     * @return 企业基本信息
+     */
+    @ApiOperation(value = "通过ID获取企业基本信息", notes = "通过ID获取企业基本信息")
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<TycCompany> getTycCompanyById(
+            @PathVariable String id) {
+        ResponseEntity<TycCompany> responseEntity;
+        try {
+            SystemConfig systemConfig = systemConfigService.getSystemConfig();
+
+            TycCompany tycCompany = tycCompanyService.getTycCompanyById(systemConfig.getTycToken(), id);
+            tycCompany.setCompanyId(CommonUtil.generateId());
+            tycCompanyService.addTycCompany(tycCompany);
+
+            responseEntity = new ResponseEntity<>(tycCompany, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(new TycCompany(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
