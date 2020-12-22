@@ -2,6 +2,8 @@ package com.bc.third.party.server.controller.company.tyc;
 
 import com.bc.third.party.server.entity.SystemConfig;
 import com.bc.third.party.server.entity.company.tyc.TycCompany;
+import com.bc.third.party.server.entity.company.tyc.TycCompanyHolder;
+import com.bc.third.party.server.entity.company.tyc.TycCompanyProfile;
 import com.bc.third.party.server.service.SystemConfigService;
 import com.bc.third.party.server.service.TycCompanyService;
 import com.bc.third.party.server.utils.CommonUtil;
@@ -62,21 +64,34 @@ public class TycCompanyController {
      */
     @ApiOperation(value = "通过ID获取企业基本信息", notes = "通过ID获取企业基本信息")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TycCompany> getTycCompanyById(
+    public ResponseEntity<TycCompanyProfile> getTycCompanyById(
             @PathVariable String id) {
-        ResponseEntity<TycCompany> responseEntity;
+        ResponseEntity<TycCompanyProfile> responseEntity;
+        TycCompanyProfile tycCompanyProfile = new TycCompanyProfile();
         try {
+            SystemConfig systemConfig = systemConfigService.getSystemConfig();
+
+            // 企业基本信息
             TycCompany tycCompany = tycCompanyService.getTycCompanyById(id);
             if (null == tycCompany) {
-                SystemConfig systemConfig = systemConfigService.getSystemConfig();
                 tycCompany = tycCompanyService.getTycCompanyById(systemConfig.getTycToken(), id);
                 tycCompany.setCompanyId(CommonUtil.generateId());
                 tycCompanyService.addTycCompany(tycCompany);
             }
-            responseEntity = new ResponseEntity<>(tycCompany, HttpStatus.OK);
+            tycCompanyProfile.setTycCompany(tycCompany);
+
+            // 企业股东
+            List<TycCompanyHolder> tycCompanyHolderList = tycCompanyService.getTycCompanyHolderById(systemConfig.getTycToken(), id);
+            tycCompanyProfile.setTycCompanyHolder(tycCompanyHolderList);
+            for (TycCompanyHolder tycCompanyHolder : tycCompanyHolderList){
+                tycCompanyHolder.setCompanyId(id);
+            }
+
+
+            responseEntity = new ResponseEntity<>(tycCompanyProfile, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            responseEntity = new ResponseEntity<>(new TycCompany(), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(new TycCompanyProfile(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

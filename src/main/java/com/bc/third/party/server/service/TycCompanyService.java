@@ -1,6 +1,7 @@
 package com.bc.third.party.server.service;
 
 import com.bc.third.party.server.entity.company.tyc.TycCompany;
+import com.bc.third.party.server.entity.company.tyc.TycCompanyHolder;
 
 import java.util.List;
 
@@ -43,5 +44,14 @@ public interface TycCompanyService {
      * @return 企业基本信息
      */
     TycCompany getTycCompanyById(String id);
+
+    /**
+     * 通过ID获取企业股东列表(天眼查)
+     *
+     * @param token 天眼查的token
+     * @param id    企业ID
+     * @return 企业股东列表
+     */
+    List<TycCompanyHolder> getTycCompanyHolderById(String token, String id);
 
 }

@@ -6,6 +6,7 @@ import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.company.tyc.Result;
 import com.bc.third.party.server.entity.company.tyc.TycBaseResponse;
 import com.bc.third.party.server.entity.company.tyc.TycCompany;
+import com.bc.third.party.server.entity.company.tyc.TycCompanyHolder;
 import com.bc.third.party.server.mapper.TycCompanyMapper;
 import com.bc.third.party.server.service.TycCompanyService;
 import com.bc.third.party.server.utils.HttpUtil;
@@ -77,6 +78,28 @@ public class TycCompanyServiceImpl implements TycCompanyService {
         TycCompany tycCompany = tycBaseResponse.getResult();
         return tycCompany;
     }
+
+    /**
+     * 通过ID获取企业股东列表(天眼查)
+     *
+     * @param token 天眼查的token
+     * @param id    企业ID
+     * @return 企业股东列表
+     */
+    @Override
+    public List<TycCompanyHolder> getTycCompanyHolderById(String token, String id) {
+        String url = "http://open.api.tianyancha.com/services/open/ic/holder/2.0?id=" + id;
+        Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+        headerMap.put("Authorization", token);
+        String result = HttpUtil.doGet(url, headerMap);
+        System.out.println(result);
+        TycBaseResponse<Result<TycCompanyHolder>> tycBaseResponse = JSON.parseObject(result,
+                new TypeReference<TycBaseResponse<Result<TycCompanyHolder>>>() {
+                });
+        List<TycCompanyHolder> tycCompanyHolderList = tycBaseResponse.getResult().getItems();
+        return tycCompanyHolderList;
+    }
+
 
     /**
      * 通过ID获取企业基本信息(DB)
