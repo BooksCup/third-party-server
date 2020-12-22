@@ -28,12 +28,20 @@ public interface TycCompanyService {
     List<TycCompany> getTycCompanyListBySearch(String token, String word);
 
     /**
-     * 通过ID获取企业基本信息
+     * 通过ID获取企业基本信息(天眼查)
      *
      * @param token 天眼查的token
      * @param id    企业ID
      * @return 企业基本信息
      */
     TycCompany getTycCompanyById(String token, String id);
+
+    /**
+     * 通过ID获取企业基本信息(DB)
+     *
+     * @param id 企业ID
+     * @return 企业基本信息
+     */
+    TycCompany getTycCompanyById(String id);
 
 }

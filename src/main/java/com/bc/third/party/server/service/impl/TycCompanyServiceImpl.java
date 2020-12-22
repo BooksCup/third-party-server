@@ -10,6 +10,7 @@ import com.bc.third.party.server.mapper.TycCompanyMapper;
 import com.bc.third.party.server.service.TycCompanyService;
 import com.bc.third.party.server.utils.HttpUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -57,9 +58,8 @@ public class TycCompanyServiceImpl implements TycCompanyService {
         return tycCompanyList;
     }
 
-
     /**
-     * 通过ID获取企业基本信息
+     * 通过ID获取企业基本信息(天眼查)
      *
      * @param token 天眼查的token
      * @param id    企业ID
@@ -76,6 +76,21 @@ public class TycCompanyServiceImpl implements TycCompanyService {
                 });
         TycCompany tycCompany = tycBaseResponse.getResult();
         return tycCompany;
+    }
+
+    /**
+     * 通过ID获取企业基本信息(DB)
+     *
+     * @param id 企业ID
+     * @return 企业基本信息
+     */
+    @Override
+    public TycCompany getTycCompanyById(String id) {
+        List<TycCompany> tycCompanyList = tycCompanyMapper.getTycCompanyListById(id);
+        if (!CollectionUtils.isEmpty(tycCompanyList)) {
+            return tycCompanyList.get(0);
+        }
+        return null;
     }
 
 }

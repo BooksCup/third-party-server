@@ -1,6 +1,5 @@
 package com.bc.third.party.server.controller.company.tyc;
 
-import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.entity.SystemConfig;
 import com.bc.third.party.server.entity.company.tyc.TycCompany;
 import com.bc.third.party.server.service.SystemConfigService;
@@ -67,12 +66,13 @@ public class TycCompanyController {
             @PathVariable String id) {
         ResponseEntity<TycCompany> responseEntity;
         try {
-            SystemConfig systemConfig = systemConfigService.getSystemConfig();
-
-            TycCompany tycCompany = tycCompanyService.getTycCompanyById(systemConfig.getTycToken(), id);
-            tycCompany.setCompanyId(CommonUtil.generateId());
-            tycCompanyService.addTycCompany(tycCompany);
-
+            TycCompany tycCompany = tycCompanyService.getTycCompanyById(id);
+            if (null == tycCompany) {
+                SystemConfig systemConfig = systemConfigService.getSystemConfig();
+                tycCompany = tycCompanyService.getTycCompanyById(systemConfig.getTycToken(), id);
+                tycCompany.setCompanyId(CommonUtil.generateId());
+                tycCompanyService.addTycCompany(tycCompany);
+            }
             responseEntity = new ResponseEntity<>(tycCompany, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
