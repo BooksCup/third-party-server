@@ -3,10 +3,7 @@ package com.bc.third.party.server.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.bc.third.party.server.cons.Constant;
-import com.bc.third.party.server.entity.company.tyc.Result;
-import com.bc.third.party.server.entity.company.tyc.TycBaseResponse;
-import com.bc.third.party.server.entity.company.tyc.TycCompany;
-import com.bc.third.party.server.entity.company.tyc.TycCompanyHolder;
+import com.bc.third.party.server.entity.company.tyc.*;
 import com.bc.third.party.server.mapper.TycCompanyMapper;
 import com.bc.third.party.server.service.TycCompanyService;
 import com.bc.third.party.server.utils.HttpUtil;
@@ -93,7 +90,7 @@ public class TycCompanyServiceImpl implements TycCompanyService {
      * @return 企业股东列表
      */
     @Override
-    public List<TycCompanyHolder> getTycCompanyHolderByCompanyId(String token, String companyId) {
+    public List<TycCompanyHolder> getTycCompanyHolderListByCompanyId(String token, String companyId) {
         String url = "http://open.api.tianyancha.com/services/open/ic/holder/2.0?id=" + companyId;
         Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         headerMap.put("Authorization", token);
@@ -104,6 +101,27 @@ public class TycCompanyServiceImpl implements TycCompanyService {
                 });
         List<TycCompanyHolder> tycCompanyHolderList = tycBaseResponse.getResult().getItems();
         return tycCompanyHolderList;
+    }
+
+    /**
+     * 通过ID获取企业变更记录列表(天眼查)
+     *
+     * @param token     天眼查的token
+     * @param companyId 企业ID
+     * @return 企业变更记录列表
+     */
+    @Override
+    public List<TycCompanyChangeInfo> getTycCompanyChangeInfoListByCompanyId(String token, String companyId) {
+        String url = "http://open.api.tianyancha.com/services/open/ic/changeinfo/2.0?id=" + companyId;
+        Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+        headerMap.put("Authorization", token);
+        String result = HttpUtil.doGet(url, headerMap);
+
+        TycBaseResponse<Result<TycCompanyChangeInfo>> tycBaseResponse = JSON.parseObject(result,
+                new TypeReference<TycBaseResponse<Result<TycCompanyChangeInfo>>>() {
+                });
+        List<TycCompanyChangeInfo> tycCompanyChangeInfoList = tycBaseResponse.getResult().getItems();
+        return tycCompanyChangeInfoList;
     }
 
 
@@ -132,7 +150,17 @@ public class TycCompanyServiceImpl implements TycCompanyService {
     }
 
     /**
-     * 根据企业ID获取企业股东列表
+     * 新增企业变更记录
+     *
+     * @param tycCompanyChangeInfo 企业变更记录
+     */
+    @Override
+    public void addTycCompanyHolder(TycCompanyChangeInfo tycCompanyChangeInfo) {
+        mongoTemplate.save(tycCompanyChangeInfo);
+    }
+
+    /**
+     * 根据企业ID获取企业股东列表(DB)
      *
      * @param companyId 企业ID
      * @return 企业股东列表
@@ -143,6 +171,20 @@ public class TycCompanyServiceImpl implements TycCompanyService {
         query.addCriteria(Criteria.where("companyId").is(companyId));
         List<TycCompanyHolder> tycCompanyHolderList = mongoTemplate.find(query, TycCompanyHolder.class);
         return tycCompanyHolderList;
+    }
+
+    /**
+     * 根据企业ID获取企业变更记录列表(DB)
+     *
+     * @param companyId 企业ID
+     * @return 企业变更记录列表
+     */
+    @Override
+    public List<TycCompanyChangeInfo> getTycCompanyChangeInfoListByCompanyId(String companyId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("companyId").is(companyId));
+        List<TycCompanyChangeInfo> tycCompanyChangeInfoList = mongoTemplate.find(query, TycCompanyChangeInfo.class);
+        return tycCompanyChangeInfoList;
     }
 
 }

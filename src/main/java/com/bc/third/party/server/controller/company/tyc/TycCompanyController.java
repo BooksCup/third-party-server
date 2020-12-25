@@ -2,6 +2,7 @@ package com.bc.third.party.server.controller.company.tyc;
 
 import com.bc.third.party.server.entity.SystemConfig;
 import com.bc.third.party.server.entity.company.tyc.TycCompany;
+import com.bc.third.party.server.entity.company.tyc.TycCompanyChangeInfo;
 import com.bc.third.party.server.entity.company.tyc.TycCompanyHolder;
 import com.bc.third.party.server.entity.company.tyc.TycCompanyProfile;
 import com.bc.third.party.server.service.SystemConfigService;
@@ -60,40 +61,35 @@ public class TycCompanyController {
     /**
      * 通过ID获取企业信息
      *
-     * @param id 企业ID
+     * @param companyId 企业ID
      * @return 企业信息
      */
     @ApiOperation(value = "通过ID获取企业信息", notes = "通过ID获取企业信息")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{companyId}")
     public ResponseEntity<TycCompanyProfile> getTycCompanyById(
-            @PathVariable String id) {
+            @PathVariable String companyId) {
         ResponseEntity<TycCompanyProfile> responseEntity;
         TycCompanyProfile tycCompanyProfile = new TycCompanyProfile();
         try {
             SystemConfig systemConfig = systemConfigService.getSystemConfig();
 
             // 企业基本信息
-            TycCompany tycCompany = tycCompanyService.getTycCompanyByCompanyId(id);
+            TycCompany tycCompany = tycCompanyService.getTycCompanyByCompanyId(companyId);
             if (null == tycCompany) {
-                tycCompany = tycCompanyService.getTycCompanyByCompanyId(systemConfig.getTycToken(), id);
+                tycCompany = tycCompanyService.getTycCompanyByCompanyId(systemConfig.getTycToken(), companyId);
                 tycCompany.setCompanyId(tycCompany.getId());
                 tycCompany.setId(CommonUtil.generateId());
                 tycCompanyService.addTycCompany(tycCompany);
             }
             tycCompanyProfile.setTycCompany(tycCompany);
 
-            // 企业股东
-            List<TycCompanyHolder> tycCompanyHolderList = tycCompanyService.getTycCompanyHolderListByCompanyId(id);
-            if (CollectionUtils.isEmpty(tycCompanyHolderList)) {
-                tycCompanyHolderList = tycCompanyService.getTycCompanyHolderByCompanyId(systemConfig.getTycToken(), id);
-                for (TycCompanyHolder tycCompanyHolder : tycCompanyHolderList) {
-                    tycCompanyHolder.setHolderId(tycCompanyHolder.getId());
-                    tycCompanyHolder.setCompanyId(id);
-                    tycCompanyHolder.setId(CommonUtil.generateId());
-                    tycCompanyService.addTycCompanyHolder(tycCompanyHolder);
-                }
-            }
-            tycCompanyProfile.setTycCompanyHolder(tycCompanyHolderList);
+            // 企业股东列表
+            List<TycCompanyHolder> tycCompanyHolderList = getAndSaveTycCompanyHolderList(companyId);
+            tycCompanyProfile.setTycCompanyHolderList(tycCompanyHolderList);
+
+            // 变更记录列表
+            List<TycCompanyChangeInfo> tycCompanyChangeInfoList = getAndSaveTycCompanyChangeInfoList(companyId);
+            tycCompanyProfile.setTycCompanyChangeInfoList(tycCompanyChangeInfoList);
 
             responseEntity = new ResponseEntity<>(tycCompanyProfile, HttpStatus.OK);
         } catch (Exception e) {
@@ -102,4 +98,78 @@ public class TycCompanyController {
         }
         return responseEntity;
     }
+
+    /**
+     * 获取企业股东列表
+     *
+     * @param companyId 企业ID
+     * @return 企业股东列表
+     */
+    @ApiOperation(value = "获取企业股东列表", notes = "获取企业股东列表")
+    @GetMapping(value = "/{companyId}/holder")
+    public ResponseEntity<List<TycCompanyHolder>> getTycCompanyHolderListByCompanyId(
+            @PathVariable String companyId) {
+        ResponseEntity<List<TycCompanyHolder>> responseEntity;
+        try {
+            List<TycCompanyHolder> tycCompanyHolderList = getAndSaveTycCompanyHolderList(companyId);
+            responseEntity = new ResponseEntity<>(tycCompanyHolderList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    /**
+     * 获取企业变更记录列表
+     *
+     * @param companyId 企业ID
+     * @return 企业变更记录列表
+     */
+    @ApiOperation(value = "获取企业变更记录列表", notes = "获取企业变更记录列表")
+    @GetMapping(value = "/{companyId}/changeInfo")
+    public ResponseEntity<List<TycCompanyChangeInfo>> getTycCompanyChangeInfoListByCompanyId(
+            @PathVariable String companyId) {
+        ResponseEntity<List<TycCompanyChangeInfo>> responseEntity;
+        try {
+            List<TycCompanyChangeInfo> tycCompanyChangeInfoList = getAndSaveTycCompanyChangeInfoList(companyId);
+            responseEntity = new ResponseEntity<>(tycCompanyChangeInfoList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    private List<TycCompanyHolder> getAndSaveTycCompanyHolderList(String companyId) {
+        SystemConfig systemConfig = systemConfigService.getSystemConfig();
+
+        List<TycCompanyHolder> tycCompanyHolderList = tycCompanyService.getTycCompanyHolderListByCompanyId(companyId);
+        if (CollectionUtils.isEmpty(tycCompanyHolderList)) {
+            tycCompanyHolderList = tycCompanyService.getTycCompanyHolderListByCompanyId(systemConfig.getTycToken(), companyId);
+            for (TycCompanyHolder tycCompanyHolder : tycCompanyHolderList) {
+                tycCompanyHolder.setHolderId(tycCompanyHolder.getId());
+                tycCompanyHolder.setCompanyId(companyId);
+                tycCompanyHolder.setId(CommonUtil.generateId());
+                tycCompanyService.addTycCompanyHolder(tycCompanyHolder);
+            }
+        }
+        return tycCompanyHolderList;
+    }
+
+    private List<TycCompanyChangeInfo> getAndSaveTycCompanyChangeInfoList(String companyId) {
+        SystemConfig systemConfig = systemConfigService.getSystemConfig();
+
+        List<TycCompanyChangeInfo> tycCompanyChangeInfoList = tycCompanyService.getTycCompanyChangeInfoListByCompanyId(companyId);
+        if (CollectionUtils.isEmpty(tycCompanyChangeInfoList)) {
+            tycCompanyChangeInfoList = tycCompanyService.getTycCompanyChangeInfoListByCompanyId(systemConfig.getTycToken(), companyId);
+            for (TycCompanyChangeInfo tycCompanyChangeInfo : tycCompanyChangeInfoList) {
+                tycCompanyChangeInfo.setCompanyId(companyId);
+                tycCompanyChangeInfo.setId(CommonUtil.generateId());
+                tycCompanyService.addTycCompanyHolder(tycCompanyChangeInfo);
+            }
+        }
+        return tycCompanyChangeInfoList;
+    }
+
 }
