@@ -4,13 +4,13 @@
 
     <resultMap id="systemConfig" type="com.bc.third.party.server.entity.SystemConfig">
         <id column="id" property="id" jdbcType="VARCHAR"/>
-        <result column="tyc_token" property="tycToken" jdbcType="VARCHAR"/>
-        <result column="kuaidi100_key" property="kuaidi100Key" jdbcType="VARCHAR"/>
-        <result column="kuaidi100_customer" property="kuaidi100Customer" jdbcType="VARCHAR"/>
+        <result column="key" property="key" jdbcType="VARCHAR"/>
+        <result column="value" property="value" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="getSystemConfig" resultMap="systemConfig">
+    <select id="getSystemConfig" resultMap="systemConfig" parameterType="String">
         select *
         from t_system_config
+        where key = #{key}
     </select>
 </mapper>

@@ -42,4 +42,15 @@ public class Constant {
      */
     public static final String DEFAULT_PAGE_SIZE = "10";
 
+    // 配置key
+    /**
+     * 天眼查
+     */
+    public static final String CONFIG_KEY_TIANYANCHA = "TIANYANCHA";
+
+    /**
+     * 快递100
+     */
+    public static final String CONFIG_KEY_KUAIDI100 = "KUAIDI100";
+
 }

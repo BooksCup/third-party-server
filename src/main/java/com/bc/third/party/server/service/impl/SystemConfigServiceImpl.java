@@ -21,11 +21,12 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     /**
      * 获取系统配置
      *
+     * @param key key
      * @return 系统配置
      */
     @Override
-    public SystemConfig getSystemConfig() {
-        return systemConfigMapper.getSystemConfig();
+    public SystemConfig getSystemConfig(String key) {
+        return systemConfigMapper.getSystemConfig(key);
     }
 
 }

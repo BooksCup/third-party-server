@@ -12,8 +12,9 @@ public interface SystemConfigService {
     /**
      * 获取系统配置
      *
+     * @param key key
      * @return 系统配置
      */
-    SystemConfig getSystemConfig();
-    
+    SystemConfig getSystemConfig(String key);
+
 }

@@ -1,7 +1,10 @@
 package com.bc.third.party.server.controller.company.tyc;
 
+import com.alibaba.fastjson.JSON;
+import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.SystemConfig;
 import com.bc.third.party.server.entity.company.tyc.*;
+import com.bc.third.party.server.entity.config.TycConfig;
 import com.bc.third.party.server.service.SystemConfigService;
 import com.bc.third.party.server.service.TycCompanyService;
 import com.bc.third.party.server.utils.CommonUtil;
@@ -42,9 +45,9 @@ public class TycCompanyController {
             @RequestParam String word) {
         ResponseEntity<List<TycCompany>> responseEntity;
         try {
-            SystemConfig systemConfig = systemConfigService.getSystemConfig();
-
-            List<TycCompany> companyList = tycCompanyService.getTycCompanyListBySearch(systemConfig.getTycToken(), word);
+            SystemConfig systemConfig = systemConfigService.getSystemConfig(Constant.CONFIG_KEY_TIANYANCHA);
+            TycConfig tycConfig = JSON.parseObject(systemConfig.getValue(), TycConfig.class);
+            List<TycCompany> companyList = tycCompanyService.getTycCompanyListBySearch(tycConfig.getToken(), word);
             // 持久化?
 
             responseEntity = new ResponseEntity<>(companyList, HttpStatus.OK);
@@ -68,12 +71,13 @@ public class TycCompanyController {
         ResponseEntity<TycCompanyProfile> responseEntity;
         TycCompanyProfile tycCompanyProfile = new TycCompanyProfile();
         try {
-            SystemConfig systemConfig = systemConfigService.getSystemConfig();
+            SystemConfig systemConfig = systemConfigService.getSystemConfig(Constant.CONFIG_KEY_TIANYANCHA);
+            TycConfig tycConfig = JSON.parseObject(systemConfig.getValue(), TycConfig.class);
 
             // 企业基本信息
             TycCompany tycCompany = tycCompanyService.getTycCompanyByCompanyId(companyId);
             if (null == tycCompany) {
-                tycCompany = tycCompanyService.getTycCompanyByCompanyId(systemConfig.getTycToken(), companyId);
+                tycCompany = tycCompanyService.getTycCompanyByCompanyId(tycConfig.getToken(), companyId);
                 tycCompany.setCompanyId(tycCompany.getId());
                 tycCompany.setId(CommonUtil.generateId());
                 tycCompanyService.addTycCompany(tycCompany);
@@ -170,11 +174,12 @@ public class TycCompanyController {
      * @return 企业股东列表
      */
     private List<TycCompanyHolder> getAndSaveTycCompanyHolderList(String companyId) {
-        SystemConfig systemConfig = systemConfigService.getSystemConfig();
+        SystemConfig systemConfig = systemConfigService.getSystemConfig(Constant.CONFIG_KEY_TIANYANCHA);
+        TycConfig tycConfig = JSON.parseObject(systemConfig.getValue(), TycConfig.class);
 
         List<TycCompanyHolder> tycCompanyHolderList = tycCompanyService.getTycCompanyHolderListByCompanyId(companyId);
         if (CollectionUtils.isEmpty(tycCompanyHolderList)) {
-            tycCompanyHolderList = tycCompanyService.getTycCompanyHolderListByCompanyId(systemConfig.getTycToken(), companyId);
+            tycCompanyHolderList = tycCompanyService.getTycCompanyHolderListByCompanyId(tycConfig.getToken(), companyId);
             for (TycCompanyHolder tycCompanyHolder : tycCompanyHolderList) {
                 tycCompanyHolder.setHolderId(tycCompanyHolder.getId());
                 tycCompanyHolder.setCompanyId(companyId);
@@ -192,11 +197,12 @@ public class TycCompanyController {
      * @return 企业变更记录列表
      */
     private List<TycCompanyChangeInfo> getAndSaveTycCompanyChangeInfoList(String companyId) {
-        SystemConfig systemConfig = systemConfigService.getSystemConfig();
+        SystemConfig systemConfig = systemConfigService.getSystemConfig(Constant.CONFIG_KEY_TIANYANCHA);
+        TycConfig tycConfig = JSON.parseObject(systemConfig.getValue(), TycConfig.class);
 
         List<TycCompanyChangeInfo> tycCompanyChangeInfoList = tycCompanyService.getTycCompanyChangeInfoListByCompanyId(companyId);
         if (CollectionUtils.isEmpty(tycCompanyChangeInfoList)) {
-            tycCompanyChangeInfoList = tycCompanyService.getTycCompanyChangeInfoListByCompanyId(systemConfig.getTycToken(), companyId);
+            tycCompanyChangeInfoList = tycCompanyService.getTycCompanyChangeInfoListByCompanyId(tycConfig.getToken(), companyId);
             for (TycCompanyChangeInfo tycCompanyChangeInfo : tycCompanyChangeInfoList) {
                 tycCompanyChangeInfo.setCompanyId(companyId);
                 tycCompanyChangeInfo.setId(CommonUtil.generateId());
@@ -213,11 +219,12 @@ public class TycCompanyController {
      * @return 企业法律诉讼列表
      */
     private List<TycCompanyLawSuit> getAndSaveTycCompanyLawSuitList(String companyId) {
-        SystemConfig systemConfig = systemConfigService.getSystemConfig();
+        SystemConfig systemConfig = systemConfigService.getSystemConfig(Constant.CONFIG_KEY_TIANYANCHA);
+        TycConfig tycConfig = JSON.parseObject(systemConfig.getValue(), TycConfig.class);
 
         List<TycCompanyLawSuit> tycCompanyLawSuitList = tycCompanyService.getTycCompanyLawSuitListByCompanyId(companyId);
         if (CollectionUtils.isEmpty(tycCompanyLawSuitList)) {
-            tycCompanyLawSuitList = tycCompanyService.getTycCompanyLawSuitListByCompanyId(systemConfig.getTycToken(), companyId);
+            tycCompanyLawSuitList = tycCompanyService.getTycCompanyLawSuitListByCompanyId(tycConfig.getToken(), companyId);
             for (TycCompanyLawSuit tycCompanyLawSuit : tycCompanyLawSuitList) {
                 tycCompanyLawSuit.setLawSuitId(tycCompanyLawSuit.getId());
                 tycCompanyLawSuit.setCompanyId(companyId);

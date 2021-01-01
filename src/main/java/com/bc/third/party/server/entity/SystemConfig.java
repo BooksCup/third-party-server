@@ -1,5 +1,7 @@
 package com.bc.third.party.server.entity;
 
+import com.bc.third.party.server.utils.CommonUtil;
+
 /**
  * 系统配置
  *
@@ -8,9 +10,18 @@ package com.bc.third.party.server.entity;
 public class SystemConfig {
 
     private String id;
-    private String tycToken;
-    private String kuaidi100Key;
-    private String kuaidi100Customer;
+    private String key;
+    private String value;
+
+    public SystemConfig() {
+
+    }
+
+    public SystemConfig(String key, String value) {
+        this.id = CommonUtil.generateId();
+        this.key = key;
+        this.value = value;
+    }
 
     public String getId() {
         return id;
@@ -20,27 +31,20 @@ public class SystemConfig {
         this.id = id;
     }
 
-    public String getTycToken() {
-        return tycToken;
+    public String getKey() {
+        return key;
     }
 
-    public void setTycToken(String tycToken) {
-        this.tycToken = tycToken;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public String getKuaidi100Key() {
-        return kuaidi100Key;
+    public String getValue() {
+        return value;
     }
 
-    public void setKuaidi100Key(String kuaidi100Key) {
-        this.kuaidi100Key = kuaidi100Key;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public String getKuaidi100Customer() {
-        return kuaidi100Customer;
-    }
-
-    public void setKuaidi100Customer(String kuaidi100Customer) {
-        this.kuaidi100Customer = kuaidi100Customer;
-    }
 }

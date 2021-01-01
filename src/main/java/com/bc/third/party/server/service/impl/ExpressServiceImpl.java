@@ -1,7 +1,9 @@
 package com.bc.third.party.server.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.SystemConfig;
+import com.bc.third.party.server.entity.config.Kuaidi100Config;
 import com.bc.third.party.server.entity.express.kuaidi100.QueryTrackParam;
 import com.bc.third.party.server.entity.express.kuaidi100.QueryTrackResult;
 import com.bc.third.party.server.mapper.SystemConfigMapper;
@@ -34,9 +36,10 @@ public class ExpressServiceImpl implements ExpressService {
     @Override
     public QueryTrackResult getExpressTrack(String com, String num) {
         QueryTrackResult queryTrackResult;
-        SystemConfig systemConfig = systemConfigMapper.getSystemConfig();
-        String key = systemConfig.getKuaidi100Key();
-        String customer = systemConfig.getKuaidi100Customer();
+        SystemConfig systemConfig = systemConfigMapper.getSystemConfig(Constant.CONFIG_KEY_KUAIDI100);
+        Kuaidi100Config kuaidi100Config = JSON.parseObject(systemConfig.getValue(), Kuaidi100Config.class);
+        String key = kuaidi100Config.getKey();
+        String customer = kuaidi100Config.getCustomer();
         QueryTrackParam queryTrackParam = new QueryTrackParam();
         queryTrackParam.setCom(com);
         queryTrackParam.setNum(num);
