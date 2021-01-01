@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,11 +138,17 @@ public class TycCompanyServiceImpl implements TycCompanyService {
         Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         headerMap.put("Authorization", token);
         String result = HttpUtil.doGet(url, headerMap);
+        List<TycCompanyLawSuit> tycCompanyLawSuitList;
+        try {
+            TycBaseResponse<Result<TycCompanyLawSuit>> tycBaseResponse = JSON.parseObject(result,
+                    new TypeReference<TycBaseResponse<Result<TycCompanyLawSuit>>>() {
+                    });
 
-        TycBaseResponse<Result<TycCompanyLawSuit>> tycBaseResponse = JSON.parseObject(result,
-                new TypeReference<TycBaseResponse<Result<TycCompanyLawSuit>>>() {
-                });
-        List<TycCompanyLawSuit> tycCompanyLawSuitList = tycBaseResponse.getResult().getItems();
+            tycCompanyLawSuitList = tycBaseResponse.getResult().getItems();
+        } catch (Exception e){
+            e.printStackTrace();
+            tycCompanyLawSuitList = new ArrayList<>();
+        }
         return tycCompanyLawSuitList;
     }
 
