@@ -4,13 +4,30 @@
 
     <resultMap id="systemConfig" type="com.bc.third.party.server.entity.SystemConfig">
         <id column="id" property="id" jdbcType="VARCHAR"/>
-        <result column="key" property="key" jdbcType="VARCHAR"/>
-        <result column="value" property="value" jdbcType="VARCHAR"/>
+        <result column="config_key" property="key" jdbcType="VARCHAR"/>
+        <result column="config_value" property="value" jdbcType="VARCHAR"/>
     </resultMap>
+
+    <insert id="addSystemConfig" parameterType="com.bc.third.party.server.entity.SystemConfig">
+        insert into t_system_config
+        (
+        id,
+        config_key,
+        config_value,
+        create_time
+        )
+        values
+        (
+        #{id},
+        #{key},
+        #{value},
+        now()
+        )
+    </insert>
 
     <select id="getSystemConfig" resultMap="systemConfig" parameterType="String">
         select *
         from t_system_config
-        where key = #{key}
+        where config_key = #{key}
     </select>
 </mapper>

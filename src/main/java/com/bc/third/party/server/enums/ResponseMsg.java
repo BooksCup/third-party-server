@@ -10,6 +10,9 @@ public enum ResponseMsg {
     /**
      * mall-server接口返回信息
      */
+    ADD_SYSTEM_CONFIG_SUCCESS("ADD_SYSTEM_CONFIG_SUCCESS", "新增系统配置成功!"),
+    ADD_SYSTEM_CONFIG_ERROR("ADD_SYSTEM_CONFIG_ERROR", "新增系统配置失败!"),
+
     ADD_NOTIFY_CONFIG_SUCCESS("ADD_NOTIFY_CONFIG_SUCCESS", "新增通知配置成功!"),
     ADD_NOTIFY_CONFIG_ERROR("ADD_NOTIFY_CONFIG_ERROR", "新增通知配置失败!"),
 
