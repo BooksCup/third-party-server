@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
- * 系统配置
+ * 第三方服务配置
  *
  * @author zhou
  */

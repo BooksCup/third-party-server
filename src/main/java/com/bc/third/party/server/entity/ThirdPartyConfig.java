@@ -3,7 +3,7 @@ package com.bc.third.party.server.entity;
 import com.bc.third.party.server.utils.CommonUtil;
 
 /**
- * 系统配置
+ * 第三方服务配置
  *
  * @author zhou
  */
