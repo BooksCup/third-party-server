@@ -9,7 +9,7 @@
     </resultMap>
 
     <insert id="addSystemConfig" parameterType="com.bc.third.party.server.entity.SystemConfig">
-        insert into t_system_config
+        insert into t_third_party_config
         (
         id,
         config_key,
@@ -27,7 +27,7 @@
 
     <select id="getSystemConfig" resultMap="systemConfig" parameterType="String">
         select *
-        from t_system_config
+        from t_third_party_config
         where config_key = #{key}
     </select>
 </mapper>
