@@ -2,12 +2,12 @@ package com.bc.third.party.server.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.cons.Constant;
-import com.bc.third.party.server.entity.SystemConfig;
+import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.config.Kuaidi100Config;
 import com.bc.third.party.server.entity.config.TycConfig;
 import com.bc.third.party.server.enums.ResponseMsg;
-import com.bc.third.party.server.service.SystemConfigService;
+import com.bc.third.party.server.service.ThirdPartyConfigService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +24,15 @@ import javax.annotation.Resource;
  * @author zhou
  */
 @RestController
-@RequestMapping("/systemConfig")
-public class SystemConfigController {
+@RequestMapping("/thirdPartyConfig")
+public class ThirdPartyConfigController {
 
     @Resource
-    private SystemConfigService systemConfigService;
+    private ThirdPartyConfigService thirdPartyConfigService;
 
-    @ApiOperation(value = "新增系统配置", notes = "新增系统配置")
+    @ApiOperation(value = "新增第三方服务配置", notes = "新增第三方服务配置")
     @PostMapping(value = "")
-    public ResponseEntity<String> addSystemConfig(
+    public ResponseEntity<String> addThirdPartyConfig(
             @RequestParam String configType,
             @RequestParam(required = false) String token,
             @RequestParam(required = false) String key,
@@ -58,13 +58,13 @@ public class SystemConfigController {
                     value = "";
                     break;
             }
-            SystemConfig systemConfig = new SystemConfig(configType, value);
-            systemConfigService.addSystemConfig(systemConfig);
+            ThirdPartyConfig thirdPartyConfig = new ThirdPartyConfig(configType, value);
+            thirdPartyConfigService.addThirdPartyConfig(thirdPartyConfig);
 
-            responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SYSTEM_CONFIG_SUCCESS.getResponseCode(), HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(ResponseMsg.ADD_THIRD_PARTY_CONFIG_SUCCESS.getResponseCode(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SYSTEM_CONFIG_ERROR.getResponseCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(ResponseMsg.ADD_THIRD_PARTY_CONFIG_ERROR.getResponseCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

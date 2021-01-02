@@ -7,17 +7,17 @@ import com.bc.third.party.server.utils.CommonUtil;
  *
  * @author zhou
  */
-public class SystemConfig {
+public class ThirdPartyConfig {
 
     private String id;
     private String key;
     private String value;
 
-    public SystemConfig() {
+    public ThirdPartyConfig() {
 
     }
 
-    public SystemConfig(String key, String value) {
+    public ThirdPartyConfig(String key, String value) {
         this.id = CommonUtil.generateId();
         this.key = key;
         this.value = value;

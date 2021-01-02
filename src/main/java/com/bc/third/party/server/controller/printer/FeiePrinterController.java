@@ -2,12 +2,12 @@ package com.bc.third.party.server.controller.printer;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.cons.Constant;
-import com.bc.third.party.server.entity.SystemConfig;
+import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.printer.ContentDate;
 import com.bc.third.party.server.entity.printer.Template1FormatData;
 import com.bc.third.party.server.enums.ResponseMsg;
-import com.bc.third.party.server.service.SystemConfigService;
+import com.bc.third.party.server.service.ThirdPartyConfigService;
 import com.bc.third.party.server.utils.HttpUtil;
 import com.bc.third.party.server.utils.TextForm;
 import com.bc.third.party.server.utils.TextFormBulider;
@@ -43,7 +43,7 @@ public class FeiePrinterController {
     private static final int TEMPLATE1_BEGIN_Y = 50;
 
     @Resource
-    private SystemConfigService systemConfigService;
+    private ThirdPartyConfigService thirdPartyConfigService;
 
     /**
      * 标签打印机打印订单(模板1)
@@ -66,8 +66,8 @@ public class FeiePrinterController {
             int y = TEMPLATE1_BEGIN_Y;
             List<ContentDate> contentDateList = JSON.parseArray(contents, ContentDate.class);
 
-            SystemConfig systemConfig = systemConfigService.getSystemConfig(Constant.CONFIG_KEY_FEIE);
-            FeieConfig feieConfig = JSON.parseObject(systemConfig.getValue(), FeieConfig.class);
+            ThirdPartyConfig thirdPartyConfig = thirdPartyConfigService.getThirdPartyConfig(Constant.CONFIG_KEY_FEIE);
+            FeieConfig feieConfig = JSON.parseObject(thirdPartyConfig.getValue(), FeieConfig.class);
 
             String user = feieConfig.getUser();
             String ukey = feieConfig.getKey();
