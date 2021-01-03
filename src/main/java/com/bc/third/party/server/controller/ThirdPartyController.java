@@ -116,7 +116,7 @@ public class ThirdPartyController {
     /**
      * 修改第三方服务配置
      *
-     * @return 修改第三方服务配置
+     * @return ResponseEntity
      */
     @CrossOrigin
     @ApiOperation(value = "修改第三方服务配置", notes = "修改第三方服务配置")
@@ -155,6 +155,36 @@ public class ThirdPartyController {
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity<>(ResponseMsg.UPDATE_THIRD_PARTY_CONFIG_ERROR.getResponseCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    /**
+     * 修改第三方服务配置开启关闭状态
+     *
+     * @param configId 第三方服务配置ID
+     * @param isOpen   开启关闭状态
+     * @return ResponseEntity
+     */
+    @CrossOrigin
+    @ApiOperation(value = "修改第三方服务配置开启关闭状态", notes = "修改第三方服务配置开启关闭状态")
+    @PutMapping(value = "/config/{configId}/open")
+    public ResponseEntity<String> updateThirdPartyConfigOpenStatus(
+            @PathVariable String configId,
+            @RequestParam String isOpen) {
+        ResponseEntity<String> responseEntity;
+        logger.info("[updateThirdPartyConfigOpenStatus], configId: " + configId + ", isOpen: " + isOpen);
+        try {
+            Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            paramMap.put("configId", configId);
+            paramMap.put("isOpen", isOpen);
+            thirdPartyService.updateThirdPartyConfigOpenStatus(paramMap);
+            responseEntity = new ResponseEntity<>(ResponseMsg.
+                    UPDATE_THIRD_PARTY_CONFIG_OPEN_STATUS_SUCCESS.getResponseCode(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(ResponseMsg.
+                    UPDATE_THIRD_PARTY_CONFIG_OPEN_STATUS_ERROR.getResponseCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

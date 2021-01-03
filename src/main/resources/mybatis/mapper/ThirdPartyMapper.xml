@@ -66,4 +66,10 @@
         where id = #{id}
     </update>
 
+    <update id="updateThirdPartyConfigOpenStatus" parameterType="map">
+        update t_third_party_config
+        set is_open = #{isOpen}
+        where id = #{configId}
+    </update>
+
 </mapper>

@@ -89,4 +89,14 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
         thirdPartyMapper.updateThirdPartyConfig(thirdPartyConfig);
     }
 
+    /**
+     * 修改第三方服务配置开启关闭状态
+     *
+     * @param paramMap 参数map
+     */
+    @Override
+    public void updateThirdPartyConfigOpenStatus(Map<String, Object> paramMap) {
+        thirdPartyMapper.updateThirdPartyConfigOpenStatus(paramMap);
+    }
+
 }

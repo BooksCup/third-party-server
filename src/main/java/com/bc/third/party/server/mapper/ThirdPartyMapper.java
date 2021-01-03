@@ -51,4 +51,11 @@ public interface ThirdPartyMapper {
      */
     void updateThirdPartyConfig(ThirdPartyConfig thirdPartyConfig);
 
+    /**
+     * 修改第三方服务配置开启关闭状态
+     *
+     * @param paramMap 参数map
+     */
+    void updateThirdPartyConfigOpenStatus(Map<String, Object> paramMap);
+
 }
