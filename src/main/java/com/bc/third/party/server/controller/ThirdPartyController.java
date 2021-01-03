@@ -2,7 +2,6 @@ package com.bc.third.party.server.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.cons.Constant;
-import com.bc.third.party.server.entity.SystemConfig;
 import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.ThirdPartyDic;
 import com.bc.third.party.server.entity.config.FeieConfig;
@@ -11,14 +10,13 @@ import com.bc.third.party.server.entity.config.TycConfig;
 import com.bc.third.party.server.enums.ResponseMsg;
 import com.bc.third.party.server.service.SystemConfigService;
 import com.bc.third.party.server.service.ThirdPartyService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 第三方服务
@@ -76,25 +74,23 @@ public class ThirdPartyController {
     }
 
     /**
-     * 获取第三方服务字典列表
+     * 获取第三方服务字典分页信息
      *
-     * @return 第三方服务字典列表
+     * @return 第三方服务字典分页信息
      */
-    @ApiOperation(value = "获取第三方服务字典列表", notes = "获取第三方服务字典列表")
+    @CrossOrigin
+    @ApiOperation(value = "获取第三方服务字典分页信息", notes = "获取第三方服务字典分页信息")
     @GetMapping(value = "/dic")
-    public ResponseEntity<List<ThirdPartyDic>> getThirdPartyDicList() {
-        ResponseEntity<List<ThirdPartyDic>> responseEntity;
+    public ResponseEntity<PageInfo<ThirdPartyDic>> getThirdPartyDicPageInfo(
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer limit) {
+        ResponseEntity<PageInfo<ThirdPartyDic>> responseEntity;
         try {
-            SystemConfig systemConfig = systemConfigService.getSystemConfig();
-
-            List<ThirdPartyDic> thirdPartyDicList = thirdPartyService.getThirdPartyDicList();
-            for (ThirdPartyDic thirdPartyDic : thirdPartyDicList) {
-                thirdPartyDic.setLogo(systemConfig.getResourceDomain() + thirdPartyDic.getLogo());
-            }
-            responseEntity = new ResponseEntity<>(thirdPartyDicList, HttpStatus.OK);
+            PageInfo<ThirdPartyDic> thirdPartyDicPageInfo = thirdPartyService.getThirdPartyDicPageInfo(page, limit);
+            responseEntity = new ResponseEntity<>(thirdPartyDicPageInfo, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            responseEntity = new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(new PageInfo<>(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

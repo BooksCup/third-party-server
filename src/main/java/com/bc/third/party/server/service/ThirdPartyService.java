@@ -2,8 +2,8 @@ package com.bc.third.party.server.service;
 
 import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.ThirdPartyDic;
+import com.github.pagehelper.PageInfo;
 
-import java.util.List;
 
 /**
  * 第三方服务配置
@@ -28,10 +28,10 @@ public interface ThirdPartyService {
     ThirdPartyConfig getThirdPartyConfig(String key);
 
     /**
-     * 获取第三方服务字典列表
+     * 获取第三方服务字典分页信息
      *
-     * @return 第三方服务字典列表
+     * @return 第三方服务字典分页信息
      */
-    List<ThirdPartyDic> getThirdPartyDicList();
+    PageInfo<ThirdPartyDic> getThirdPartyDicPageInfo(int pageNum, int pageSize);
 
 }

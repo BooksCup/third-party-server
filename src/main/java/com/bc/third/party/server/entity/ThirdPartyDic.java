@@ -10,6 +10,7 @@ public class ThirdPartyDic {
     private String name;
     private String logo;
     private String key;
+    private String isOpen;
 
     public String getId() {
         return id;
@@ -43,4 +44,11 @@ public class ThirdPartyDic {
         this.key = key;
     }
 
+    public String getIsOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(String isOpen) {
+        this.isOpen = isOpen;
+    }
 }

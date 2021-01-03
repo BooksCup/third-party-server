@@ -13,6 +13,7 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="logo" property="logo" jdbcType="VARCHAR"/>
         <result column="key" property="key" jdbcType="VARCHAR"/>
+        <result column="is_open" property="isOpen" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="addThirdPartyConfig" parameterType="com.bc.third.party.server.entity.ThirdPartyConfig">
@@ -39,7 +40,8 @@
     </select>
 
     <select id="getThirdPartyDicList" resultMap="thirdPartyDic">
-        select *
-        from t_third_party_dic
+        select d.*, c.is_open
+        from t_third_party_dic d
+        left join t_third_party_config c on d.key = c.config_key
     </select>
 </mapper>
