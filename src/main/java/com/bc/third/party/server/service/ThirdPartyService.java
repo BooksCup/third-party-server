@@ -4,6 +4,8 @@ import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.ThirdPartyDic;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Map;
+
 
 /**
  * 第三方服务配置
@@ -40,9 +42,10 @@ public interface ThirdPartyService {
      *
      * @param pageNum  当前分页数
      * @param pageSize 分页大小
+     * @param paramMap 参数map
      * @return 第三方服务字典分页信息
      */
-    PageInfo<ThirdPartyDic> getThirdPartyDicPageInfo(int pageNum, int pageSize);
+    PageInfo<ThirdPartyDic> getThirdPartyDicPageInfo(int pageNum, int pageSize, Map<String, Object> paramMap);
 
     /**
      * 修改第三方服务配置

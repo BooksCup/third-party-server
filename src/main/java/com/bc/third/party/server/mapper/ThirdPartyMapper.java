@@ -4,6 +4,7 @@ import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.ThirdPartyDic;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 第三方服务配置
@@ -38,9 +39,10 @@ public interface ThirdPartyMapper {
     /**
      * 获取第三方服务字典列表
      *
+     * @param paramMap 参数map
      * @return 第三方服务字典列表
      */
-    List<ThirdPartyDic> getThirdPartyDicList();
+    List<ThirdPartyDic> getThirdPartyDicList(Map<String, Object> paramMap);
 
     /**
      * 修改第三方服务配置

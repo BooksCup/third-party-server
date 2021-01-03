@@ -54,6 +54,10 @@
         c.id as config_id
         from t_third_party_dic d
         left join t_third_party_config c on d.key = c.config_key
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            and name like '%${keyword}%'
+        </if>
     </select>
 
     <update id="updateThirdPartyConfig" parameterType="com.bc.third.party.server.entity.ThirdPartyConfig">

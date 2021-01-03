@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 第三方服务
@@ -95,11 +97,14 @@ public class ThirdPartyController {
     @ApiOperation(value = "获取第三方服务字典分页信息", notes = "获取第三方服务字典分页信息")
     @GetMapping(value = "/dic")
     public ResponseEntity<PageInfo<ThirdPartyDic>> getThirdPartyDicPageInfo(
+            @RequestParam(required = false) String keyword,
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer limit) {
         ResponseEntity<PageInfo<ThirdPartyDic>> responseEntity;
         try {
-            PageInfo<ThirdPartyDic> thirdPartyDicPageInfo = thirdPartyService.getThirdPartyDicPageInfo(page, limit);
+            Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            paramMap.put("keyword", keyword);
+            PageInfo<ThirdPartyDic> thirdPartyDicPageInfo = thirdPartyService.getThirdPartyDicPageInfo(page, limit, paramMap);
             responseEntity = new ResponseEntity<>(thirdPartyDicPageInfo, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

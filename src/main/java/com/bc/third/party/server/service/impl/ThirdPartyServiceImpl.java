@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 第三方服务配置
@@ -64,13 +65,14 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
      *
      * @param pageNum  当前分页数
      * @param pageSize 分页大小
+     * @param paramMap 参数map
      * @return 第三方服务字典分页信息
      */
     @Override
-    public PageInfo<ThirdPartyDic> getThirdPartyDicPageInfo(int pageNum, int pageSize) {
+    public PageInfo<ThirdPartyDic> getThirdPartyDicPageInfo(int pageNum, int pageSize, Map<String, Object> paramMap) {
         PageHelper.startPage(pageNum, pageSize);
         SystemConfig systemConfig = systemConfigMapper.getSystemConfig();
-        List<ThirdPartyDic> thirdPartyDicList = thirdPartyMapper.getThirdPartyDicList();
+        List<ThirdPartyDic> thirdPartyDicList = thirdPartyMapper.getThirdPartyDicList(paramMap);
         for (ThirdPartyDic thirdPartyDic : thirdPartyDicList) {
             thirdPartyDic.setLogo(systemConfig.getResourceDomain() + thirdPartyDic.getLogo());
         }
