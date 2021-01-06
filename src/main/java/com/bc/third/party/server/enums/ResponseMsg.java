@@ -20,6 +20,9 @@ public enum ResponseMsg {
 
     SEND_SMS_SUCCESS("SEND_SMS_SUCCESS", "发送短信成功"),
     SEND_SMS_ERROR("SEND_SMS_ERROR", "发送短信失败"),
+
+    PRINT_TEMPLATE_SUCCESS("PRINT_TEMPLATE_SUCCESS", "打印模板成功"),
+    PRINT_TEMPLATE_ERROR("PRINT_TEMPLATE_ERROR", "打印模板成功"),
     ;
 
     ResponseMsg(String responseCode, String responseMessage) {

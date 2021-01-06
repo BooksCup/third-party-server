@@ -6,6 +6,7 @@ import com.bc.third.party.server.entity.SystemConfig;
 import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.printer.ContentDate;
 import com.bc.third.party.server.entity.printer.Template1FormatData;
+import com.bc.third.party.server.enums.ResponseMsg;
 import com.bc.third.party.server.service.SystemConfigService;
 import com.bc.third.party.server.utils.HttpUtil;
 import com.bc.third.party.server.utils.TextForm;
@@ -124,10 +125,10 @@ public class FeiePrinterController {
             logger.info("[printTemplate1], content.size: " + contentBuffer.length());
             paramMap.put("debug", "1");
             HttpUtil.doPost(URL, paramMap);
-            responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(ResponseMsg.PRINT_TEMPLATE_SUCCESS.getResponseCode(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            responseEntity = new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(ResponseMsg.PRINT_TEMPLATE_ERROR.getResponseCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
