@@ -71,7 +71,7 @@ public class FeiePrinterController {
             String user = feieConfig.getUser();
             String ukey = feieConfig.getKey();
             String stime = Long.toString(System.currentTimeMillis() / 1000L);
-            String sig = DigestUtils.shaHex(user + ukey + stime);
+            String sig = DigestUtils.sha1Hex(user + ukey + stime);
 
             Map<String, String> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
             paramMap.put("user", user);
