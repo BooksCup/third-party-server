@@ -53,4 +53,9 @@ public class Constant {
      */
     public static final String CONFIG_KEY_KUAIDI100 = "KUAIDI100";
 
+    /**
+     * 飞鹅打印机
+     */
+    public static final String CONFIG_KEY_FEIE = "FEIE";
+
 }

@@ -3,6 +3,7 @@ package com.bc.third.party.server.controller;
 import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.SystemConfig;
+import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.config.Kuaidi100Config;
 import com.bc.third.party.server.entity.config.TycConfig;
 import com.bc.third.party.server.enums.ResponseMsg;
@@ -35,7 +36,8 @@ public class SystemConfigController {
             @RequestParam String configType,
             @RequestParam(required = false) String token,
             @RequestParam(required = false) String key,
-            @RequestParam(required = false) String customer) {
+            @RequestParam(required = false) String customer,
+            @RequestParam(required = false) String user) {
         ResponseEntity<String> responseEntity;
         try {
             String value;
@@ -47,6 +49,10 @@ public class SystemConfigController {
                 case Constant.CONFIG_KEY_KUAIDI100:
                     Kuaidi100Config kuaidi100Config = new Kuaidi100Config(key, customer);
                     value = JSON.toJSONString(kuaidi100Config);
+                    break;
+                case Constant.CONFIG_KEY_FEIE:
+                    FeieConfig feieConfig = new FeieConfig(user, key);
+                    value = JSON.toJSONString(feieConfig);
                     break;
                 default:
                     value = "";
