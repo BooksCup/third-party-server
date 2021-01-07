@@ -1,5 +1,10 @@
 package com.bc.third.party.server.entity.printer;
 
+/**
+ * 打印内容数据
+ *
+ * @author zhou
+ */
 public class ContentDate {
 
     private String key;

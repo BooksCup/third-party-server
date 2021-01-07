@@ -44,7 +44,16 @@ public class FeiePrinterController {
     @Resource
     private SystemConfigService systemConfigService;
 
-    @ApiOperation(value = "标签打印机打印订单", notes = "标签打印机打印订单")
+    /**
+     * 标签打印机打印订单(模板1)
+     *
+     * @param sn                 打印机编号
+     * @param companyName        公司名
+     * @param companyEnglishName 公司英文名
+     * @param contents           打印内容(JSONArray)
+     * @return ResponseEntity
+     */
+    @ApiOperation(value = "标签打印机打印订单(模板1)", notes = "标签打印机打印订单(模板1)")
     @PostMapping(value = "/template1")
     public ResponseEntity<String> printTemplate1(
             @RequestParam String sn,

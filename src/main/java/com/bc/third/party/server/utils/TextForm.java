@@ -10,6 +10,11 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 表格表单
+ *
+ * @author zhou
+ */
 public class TextForm {
 
     /**
@@ -63,7 +68,6 @@ public class TextForm {
 
         List<String> dataList = new ArrayList<>();
         List<List<String>> formData = new ArrayList<>();
-//        formData.add(title);
         formData.addAll(datas);
         Map<Integer, Integer> colMaxLengthMap = colMaxLength(formData);
         for (int i = 0; i < formData.size(); i++) {
@@ -105,7 +109,7 @@ public class TextForm {
             dataList.add(row);
         }
 
-        if (!CollectionUtils.isEmpty(dataList)){
+        if (!CollectionUtils.isEmpty(dataList)) {
             template1FormatData.setEmptyData(dataList.get(dataList.size() - 1));
             dataList.remove(dataList.size() - 1);
         }
@@ -123,7 +127,7 @@ public class TextForm {
      * @return
      */
     private Map<Integer, Integer> colMaxLength(List<List<String>> formData) {
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         for (int i = 0; i < formData.size(); i++) {
             int col = 0;
             List<String> strings = formData.get(i);
@@ -155,7 +159,7 @@ public class TextForm {
      * @return
      */
     private Map<Integer, Integer> colMinBlankLength(List<List<String>> formData) {
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         for (int i = 0; i < formData.size(); i++) {
             int col = 0;
             List<String> strings = formData.get(i);

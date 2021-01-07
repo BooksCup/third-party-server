@@ -1,5 +1,10 @@
 package com.bc.third.party.server.entity.config;
 
+/**
+ * 飞鹅打印机配置信息
+ *
+ * @author zhou
+ */
 public class FeieConfig {
 
     private String user;
