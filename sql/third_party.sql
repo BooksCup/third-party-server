@@ -64,6 +64,16 @@ CREATE TABLE `t_sms_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+/*Table structure for table `t_system_config` */
+
+DROP TABLE IF EXISTS `t_system_config`;
+
+CREATE TABLE `t_system_config` (
+  `id` varchar(32) NOT NULL COMMENT '系统配置表主键',
+  `resource_domain` varchar(100) DEFAULT NULL COMMENT '资源文件域名',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*Table structure for table `t_third_party_config` */
 
 DROP TABLE IF EXISTS `t_third_party_config`;
@@ -81,7 +91,7 @@ CREATE TABLE `t_third_party_config` (
 DROP TABLE IF EXISTS `t_third_party_dic`;
 
 CREATE TABLE `t_third_party_dic` (
-  `id` varchar(32) NOT NULL COMMENT '第三方字典表主键',
+  `id` varchar(32) NOT NULL COMMENT '第三方服务字典表主键',
   `name` varchar(100) DEFAULT NULL COMMENT '第三方服务名称',
   `logo` varchar(100) DEFAULT NULL COMMENT '第三方服务logo',
   `key` varchar(100) DEFAULT NULL COMMENT '第三方服务key',
