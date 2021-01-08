@@ -8,6 +8,13 @@
         <result column="config_value" property="value" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <resultMap id="thirdPartyDic" type="com.bc.third.party.server.entity.ThirdPartyDic">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR"/>
+        <result column="key" property="key" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <insert id="addThirdPartyConfig" parameterType="com.bc.third.party.server.entity.ThirdPartyConfig">
         insert into t_third_party_config
         (
@@ -29,5 +36,10 @@
         select *
         from t_third_party_config
         where config_key = #{key}
+    </select>
+
+    <select id="getThirdPartyDicList" resultMap="thirdPartyDic">
+        select *
+        from t_third_party_dic
     </select>
 </mapper>
