@@ -6,7 +6,7 @@ import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.config.Kuaidi100Config;
 import com.bc.third.party.server.entity.express.kuaidi100.QueryTrackParam;
 import com.bc.third.party.server.entity.express.kuaidi100.QueryTrackResult;
-import com.bc.third.party.server.mapper.ThirdPartyConfigMapper;
+import com.bc.third.party.server.mapper.ThirdPartyMapper;
 import com.bc.third.party.server.service.ExpressService;
 import com.bc.third.party.server.utils.HttpUtil;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -24,7 +24,7 @@ import java.net.URLEncoder;
 public class ExpressServiceImpl implements ExpressService {
 
     @Resource
-    private ThirdPartyConfigMapper thirdPartyConfigMapper;
+    private ThirdPartyMapper thirdPartyMapper;
 
     /**
      * 根据快递公司编码和快递单号实时请求快递公司单号获取物流轨迹信息
@@ -36,7 +36,7 @@ public class ExpressServiceImpl implements ExpressService {
     @Override
     public QueryTrackResult getExpressTrack(String com, String num) {
         QueryTrackResult queryTrackResult;
-        ThirdPartyConfig thirdPartyConfig = thirdPartyConfigMapper.getThirdPartyConfig(Constant.CONFIG_KEY_KUAIDI100);
+        ThirdPartyConfig thirdPartyConfig = thirdPartyMapper.getThirdPartyConfig(Constant.CONFIG_KEY_KUAIDI100);
         Kuaidi100Config kuaidi100Config = JSON.parseObject(thirdPartyConfig.getValue(), Kuaidi100Config.class);
         String key = kuaidi100Config.getKey();
         String customer = kuaidi100Config.getCustomer();

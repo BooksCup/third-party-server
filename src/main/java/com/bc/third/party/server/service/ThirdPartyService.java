@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author zhou
  */
-public interface ThirdPartyConfigService {
+public interface ThirdPartyService {
 
     /**
      * 新增第三方服务配置

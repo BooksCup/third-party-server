@@ -8,7 +8,7 @@ import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.config.Kuaidi100Config;
 import com.bc.third.party.server.entity.config.TycConfig;
 import com.bc.third.party.server.enums.ResponseMsg;
-import com.bc.third.party.server.service.ThirdPartyConfigService;
+import com.bc.third.party.server.service.ThirdPartyService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 第三方服务配置
+ * 第三方服务
  *
  * @author zhou
  */
 @RestController
 @RequestMapping("/thirdParty")
-public class ThirdPartyConfigController {
+public class ThirdPartyController {
 
     @Resource
-    private ThirdPartyConfigService thirdPartyConfigService;
+    private ThirdPartyService thirdPartyService;
 
     @ApiOperation(value = "新增第三方服务配置", notes = "新增第三方服务配置")
     @PostMapping(value = "/config")
@@ -59,7 +59,7 @@ public class ThirdPartyConfigController {
                     break;
             }
             ThirdPartyConfig thirdPartyConfig = new ThirdPartyConfig(configType, value);
-            thirdPartyConfigService.addThirdPartyConfig(thirdPartyConfig);
+            thirdPartyService.addThirdPartyConfig(thirdPartyConfig);
 
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_THIRD_PARTY_CONFIG_SUCCESS.getResponseCode(), HttpStatus.OK);
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class ThirdPartyConfigController {
     public ResponseEntity<List<ThirdPartyDic>> getThirdPartyDicList() {
         ResponseEntity<List<ThirdPartyDic>> responseEntity;
         try {
-            List<ThirdPartyDic> thirdPartyDicList = thirdPartyConfigService.getThirdPartyDicList();
+            List<ThirdPartyDic> thirdPartyDicList = thirdPartyService.getThirdPartyDicList();
             responseEntity = new ResponseEntity<>(thirdPartyDicList, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

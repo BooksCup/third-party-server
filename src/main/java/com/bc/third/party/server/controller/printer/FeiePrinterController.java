@@ -7,7 +7,7 @@ import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.printer.ContentDate;
 import com.bc.third.party.server.entity.printer.Template1FormatData;
 import com.bc.third.party.server.enums.ResponseMsg;
-import com.bc.third.party.server.service.ThirdPartyConfigService;
+import com.bc.third.party.server.service.ThirdPartyService;
 import com.bc.third.party.server.utils.HttpUtil;
 import com.bc.third.party.server.utils.TextForm;
 import com.bc.third.party.server.utils.TextFormBulider;
@@ -43,7 +43,7 @@ public class FeiePrinterController {
     private static final int TEMPLATE1_BEGIN_Y = 50;
 
     @Resource
-    private ThirdPartyConfigService thirdPartyConfigService;
+    private ThirdPartyService thirdPartyService;
 
     /**
      * 标签打印机打印订单(模板1)
@@ -66,7 +66,7 @@ public class FeiePrinterController {
             int y = TEMPLATE1_BEGIN_Y;
             List<ContentDate> contentDateList = JSON.parseArray(contents, ContentDate.class);
 
-            ThirdPartyConfig thirdPartyConfig = thirdPartyConfigService.getThirdPartyConfig(Constant.CONFIG_KEY_FEIE);
+            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(Constant.CONFIG_KEY_FEIE);
             FeieConfig feieConfig = JSON.parseObject(thirdPartyConfig.getValue(), FeieConfig.class);
 
             String user = feieConfig.getUser();

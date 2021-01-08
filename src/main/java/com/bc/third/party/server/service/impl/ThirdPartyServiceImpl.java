@@ -2,8 +2,8 @@ package com.bc.third.party.server.service.impl;
 
 import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.ThirdPartyDic;
-import com.bc.third.party.server.mapper.ThirdPartyConfigMapper;
-import com.bc.third.party.server.service.ThirdPartyConfigService;
+import com.bc.third.party.server.mapper.ThirdPartyMapper;
+import com.bc.third.party.server.service.ThirdPartyService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,11 +14,11 @@ import java.util.List;
  *
  * @author zhou
  */
-@Service("thirdPartyConfigService")
-public class ThirdPartyConfigServiceImpl implements ThirdPartyConfigService {
+@Service("thirdPartyService")
+public class ThirdPartyServiceImpl implements ThirdPartyService {
 
     @Resource
-    private ThirdPartyConfigMapper thirdPartyConfigMapper;
+    private ThirdPartyMapper thirdPartyMapper;
 
     /**
      * 新增第三方服务配置
@@ -27,7 +27,7 @@ public class ThirdPartyConfigServiceImpl implements ThirdPartyConfigService {
      */
     @Override
     public void addThirdPartyConfig(ThirdPartyConfig thirdPartyConfig) {
-        thirdPartyConfigMapper.addThirdPartyConfig(thirdPartyConfig);
+        thirdPartyMapper.addThirdPartyConfig(thirdPartyConfig);
     }
 
 
@@ -39,7 +39,7 @@ public class ThirdPartyConfigServiceImpl implements ThirdPartyConfigService {
      */
     @Override
     public ThirdPartyConfig getThirdPartyConfig(String key) {
-        return thirdPartyConfigMapper.getThirdPartyConfig(key);
+        return thirdPartyMapper.getThirdPartyConfig(key);
     }
 
     /**
@@ -49,7 +49,7 @@ public class ThirdPartyConfigServiceImpl implements ThirdPartyConfigService {
      */
     @Override
     public List<ThirdPartyDic> getThirdPartyDicList() {
-        return thirdPartyConfigMapper.getThirdPartyDicList();
+        return thirdPartyMapper.getThirdPartyDicList();
     }
 
 }
