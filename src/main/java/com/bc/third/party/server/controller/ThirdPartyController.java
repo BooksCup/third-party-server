@@ -2,12 +2,14 @@ package com.bc.third.party.server.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.cons.Constant;
+import com.bc.third.party.server.entity.SystemConfig;
 import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.ThirdPartyDic;
 import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.config.Kuaidi100Config;
 import com.bc.third.party.server.entity.config.TycConfig;
 import com.bc.third.party.server.enums.ResponseMsg;
+import com.bc.third.party.server.service.SystemConfigService;
 import com.bc.third.party.server.service.ThirdPartyService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,10 @@ public class ThirdPartyController {
 
     @Resource
     private ThirdPartyService thirdPartyService;
+
+    @Resource
+    private SystemConfigService systemConfigService;
+
 
     @ApiOperation(value = "新增第三方服务配置", notes = "新增第三方服务配置")
     @PostMapping(value = "/config")
@@ -79,7 +85,12 @@ public class ThirdPartyController {
     public ResponseEntity<List<ThirdPartyDic>> getThirdPartyDicList() {
         ResponseEntity<List<ThirdPartyDic>> responseEntity;
         try {
+            SystemConfig systemConfig = systemConfigService.getSystemConfig();
+
             List<ThirdPartyDic> thirdPartyDicList = thirdPartyService.getThirdPartyDicList();
+            for (ThirdPartyDic thirdPartyDic : thirdPartyDicList) {
+                thirdPartyDic.setLogo(systemConfig.getResourceDomain() + thirdPartyDic.getLogo());
+            }
             responseEntity = new ResponseEntity<>(thirdPartyDicList, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
