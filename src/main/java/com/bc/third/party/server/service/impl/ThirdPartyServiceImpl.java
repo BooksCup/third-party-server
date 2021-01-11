@@ -37,7 +37,6 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
         thirdPartyMapper.addThirdPartyConfig(thirdPartyConfig);
     }
 
-
     /**
      * 获取第三方服务配置
      *

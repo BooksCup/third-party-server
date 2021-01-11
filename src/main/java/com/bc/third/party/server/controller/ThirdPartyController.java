@@ -33,7 +33,16 @@ public class ThirdPartyController {
     @Resource
     private SystemConfigService systemConfigService;
 
-
+    /**
+     * 新增第三方服务配置
+     *
+     * @param configType 配置类型
+     * @param token      token
+     * @param key        key
+     * @param customer   customer
+     * @param user       user
+     * @return ResponseEntity
+     */
     @ApiOperation(value = "新增第三方服务配置", notes = "新增第三方服务配置")
     @PostMapping(value = "/config")
     public ResponseEntity<String> addThirdPartyConfig(
