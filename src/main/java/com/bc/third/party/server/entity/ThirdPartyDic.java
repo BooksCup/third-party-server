@@ -11,6 +11,7 @@ public class ThirdPartyDic {
     private String logo;
     private String key;
     private String isOpen;
+    private String configId;
     private String configValue;
 
     public String getId() {
@@ -51,6 +52,14 @@ public class ThirdPartyDic {
 
     public void setIsOpen(String isOpen) {
         this.isOpen = isOpen;
+    }
+
+    public String getConfigId() {
+        return configId;
+    }
+
+    public void setConfigId(String configId) {
+        this.configId = configId;
     }
 
     public String getConfigValue() {

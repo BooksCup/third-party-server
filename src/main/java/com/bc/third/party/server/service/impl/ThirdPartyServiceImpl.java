@@ -49,8 +49,21 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
     }
 
     /**
+     * 根据配置ID获取第三方服务配置
+     *
+     * @param configId 配置ID
+     * @return 第三方服务配置
+     */
+    @Override
+    public ThirdPartyConfig getThirdPartyConfigByConfigId(String configId) {
+        return thirdPartyMapper.getThirdPartyConfigByConfigId(configId);
+    }
+
+    /**
      * 获取第三方服务字典分页信息
      *
+     * @param pageNum  当前分页数
+     * @param pageSize 分页大小
      * @return 第三方服务字典分页信息
      */
     @Override
@@ -62,6 +75,16 @@ public class ThirdPartyServiceImpl implements ThirdPartyService {
             thirdPartyDic.setLogo(systemConfig.getResourceDomain() + thirdPartyDic.getLogo());
         }
         return new PageInfo<>(thirdPartyDicList);
+    }
+
+    /**
+     * 修改第三方服务配置
+     *
+     * @param thirdPartyConfig 第三方服务配置
+     */
+    @Override
+    public void updateThirdPartyConfig(ThirdPartyConfig thirdPartyConfig) {
+        thirdPartyMapper.updateThirdPartyConfig(thirdPartyConfig);
     }
 
 }

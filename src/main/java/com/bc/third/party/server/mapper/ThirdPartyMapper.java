@@ -28,10 +28,25 @@ public interface ThirdPartyMapper {
     ThirdPartyConfig getThirdPartyConfig(String key);
 
     /**
+     * 根据配置ID获取第三方服务配置
+     *
+     * @param configId 配置ID
+     * @return 第三方服务配置
+     */
+    ThirdPartyConfig getThirdPartyConfigByConfigId(String configId);
+
+    /**
      * 获取第三方服务字典列表
      *
      * @return 第三方服务字典列表
      */
     List<ThirdPartyDic> getThirdPartyDicList();
+
+    /**
+     * 修改第三方服务配置
+     *
+     * @param thirdPartyConfig 第三方服务配置
+     */
+    void updateThirdPartyConfig(ThirdPartyConfig thirdPartyConfig);
 
 }
