@@ -58,4 +58,9 @@ public class Constant {
      */
     public static final String CONFIG_KEY_FEIE = "FEIE";
 
+    /**
+     * OSS
+     */
+    public static final String CONFIG_KEY_OSS = "OSS";
+
 }
