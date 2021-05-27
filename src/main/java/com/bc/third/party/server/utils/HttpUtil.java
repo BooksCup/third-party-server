@@ -142,16 +142,16 @@ public class HttpUtil {
     /**
      * post请求（用于请求json格式的参数）
      *
-     * @param url    url
-     * @param params 参数
+     * @param url     url
+     * @param headers 请求头
+     * @param params  参数
      * @return 服务器返回
      */
-    public static String doPost(String url, String params) throws Exception {
+    public static String doPost(String url, Header[] headers, String params) throws Exception {
         // 创建httpPost
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-Type", "application/json");
+        httpPost.setHeaders(headers);
         String charSet = "UTF-8";
         StringEntity entity = new StringEntity(params, charSet);
         httpPost.setEntity(entity);
@@ -183,4 +183,5 @@ public class HttpUtil {
         }
         return null;
     }
+
 }
