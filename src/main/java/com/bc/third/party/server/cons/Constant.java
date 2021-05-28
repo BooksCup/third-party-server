@@ -63,4 +63,9 @@ public class Constant {
      */
     public static final String CONFIG_KEY_OSS = "OSS";
 
+    /**
+     * 文字识别
+     */
+    public static final String CONFIG_KEY_OCR = "OCR";
+
 }
