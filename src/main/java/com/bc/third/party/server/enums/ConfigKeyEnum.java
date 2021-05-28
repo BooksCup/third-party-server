@@ -15,6 +15,7 @@ public enum ConfigKeyEnum {
     FEIE("FEIE", "飞鹅打印机"),
     OSS("OSS", "对象存储"),
     OCR("OCR", "文字识别"),
+    ALI_SMS("ALI_SMS", "阿里短信服务"),
     ;
 
     private String code;

@@ -2,12 +2,13 @@ package com.bc.third.party.server.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.third.party.server.cons.Constant;
-import com.bc.third.party.server.entity.NotifyConfig;
 import com.bc.third.party.server.entity.SmsConfig;
 import com.bc.third.party.server.entity.SmsResponse;
+import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.alisms.SmsSendDetailDTO;
-import com.bc.third.party.server.mapper.NotifyConfigMapper;
+import com.bc.third.party.server.enums.ConfigKeyEnum;
 import com.bc.third.party.server.mapper.SmsMapper;
+import com.bc.third.party.server.mapper.ThirdPartyMapper;
 import com.bc.third.party.server.service.SmsService;
 import com.bc.third.party.server.utils.SmsUtil;
 import com.bc.third.party.server.utils.TimeUtil;
@@ -30,7 +31,7 @@ public class SmsServiceImpl implements SmsService {
     SmsMapper smsMapper;
 
     @Resource
-    NotifyConfigMapper notifyConfigMapper;
+    ThirdPartyMapper thirdPartyMapper;
 
     /**
      * 保存短信回执
@@ -56,11 +57,11 @@ public class SmsServiceImpl implements SmsService {
     @Override
     public List<SmsSendDetailDTO> querySendDetails(String phone, String bizId,
                                                    String sendDate, String page, String limit) {
-        NotifyConfig notifyConfig = notifyConfigMapper.getNotifyConfigByType(Constant.NOTIFY_TYPE_SMS);
-        if (null == notifyConfig) {
+        ThirdPartyConfig thirdPartyConfig = thirdPartyMapper.getThirdPartyConfig(ConfigKeyEnum.ALI_SMS.getCode());
+        if (null == thirdPartyConfig) {
             return new ArrayList<>();
         }
-        SmsConfig smsConfig = JSON.parseObject(notifyConfig.getData(), SmsConfig.class);
+        SmsConfig smsConfig = JSON.parseObject(thirdPartyConfig.getValue(), SmsConfig.class);
         List<SmsSendDetailDTO> smsSendDetailDTOList = SmsUtil.querySendDetails(smsConfig,
                 phone, bizId, sendDate, page, limit);
         return smsSendDetailDTOList;

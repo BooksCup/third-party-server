@@ -1,14 +1,14 @@
-package com.bc.third.party.server.controller.notify;
+package com.bc.third.party.server.controller.sms;
 
 import com.alibaba.fastjson.JSON;
-import com.bc.third.party.server.cons.Constant;
-import com.bc.third.party.server.entity.NotifyConfig;
 import com.bc.third.party.server.entity.SmsConfig;
 import com.bc.third.party.server.entity.SmsResponse;
+import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.alisms.SmsSendDetailDTO;
+import com.bc.third.party.server.enums.ConfigKeyEnum;
 import com.bc.third.party.server.enums.ResponseMsg;
-import com.bc.third.party.server.service.NotifyConfigService;
 import com.bc.third.party.server.service.SmsService;
+import com.bc.third.party.server.service.ThirdPartyService;
 import com.bc.third.party.server.utils.SmsUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ import java.util.List;
 public class SmsController {
 
     @Resource
-    private NotifyConfigService notifyConfigService;
+    private ThirdPartyService thirdPartyService;
 
     @Resource
     private SmsService smsService;
@@ -55,11 +55,11 @@ public class SmsController {
             @RequestParam String templateParam) {
         ResponseEntity<String> responseEntity;
         try {
-            NotifyConfig notifyConfig = notifyConfigService.getNotifyConfigByType(Constant.NOTIFY_TYPE_SMS);
-            if (null == notifyConfig) {
+            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(ConfigKeyEnum.ALI_SMS.getCode());
+            if (null == thirdPartyConfig) {
                 return new ResponseEntity<>(ResponseMsg.SMS_CONFIG_NOT_CORRECT.getResponseCode(), HttpStatus.BAD_REQUEST);
             }
-            SmsConfig smsConfig = JSON.parseObject(notifyConfig.getData(), SmsConfig.class);
+            SmsConfig smsConfig = JSON.parseObject(thirdPartyConfig.getValue(), SmsConfig.class);
             SmsResponse smsResponse = SmsUtil.sendSms(smsConfig, phones, signName, templateCode, templateParam);
             smsResponse.setPhone(phones);
 
@@ -101,4 +101,5 @@ public class SmsController {
         }
         return responseEntity;
     }
+
 }
