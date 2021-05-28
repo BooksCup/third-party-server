@@ -6,6 +6,7 @@ import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.printer.ContentDate;
 import com.bc.third.party.server.entity.printer.Template1FormatData;
+import com.bc.third.party.server.enums.ConfigKeyEnum;
 import com.bc.third.party.server.enums.ResponseMsg;
 import com.bc.third.party.server.service.ThirdPartyService;
 import com.bc.third.party.server.utils.HttpUtil;
@@ -66,7 +67,7 @@ public class FeiePrinterController {
             int y = TEMPLATE1_BEGIN_Y;
             List<ContentDate> contentDateList = JSON.parseArray(contents, ContentDate.class);
 
-            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(Constant.CONFIG_KEY_FEIE);
+            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(ConfigKeyEnum.FEIE.getCode());
             FeieConfig feieConfig = JSON.parseObject(thirdPartyConfig.getValue(), FeieConfig.class);
 
             String user = feieConfig.getUser();

@@ -1,9 +1,9 @@
 package com.bc.third.party.server.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.config.OssConfig;
+import com.bc.third.party.server.enums.ConfigKeyEnum;
 import com.bc.third.party.server.service.ThirdPartyService;
 import com.bc.third.party.server.utils.AvatarUtil;
 import com.bc.third.party.server.utils.CommonUtil;
@@ -53,7 +53,7 @@ public class CommonController {
     public ResponseEntity<String> generateAvatar(@RequestParam String content) {
         ResponseEntity<String> responseEntity;
         try {
-            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(Constant.CONFIG_KEY_OSS);
+            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(ConfigKeyEnum.OSS.getCode());
             OssConfig ossConfig = JSON.parseObject(thirdPartyConfig.getValue(), OssConfig.class);
             String result = AvatarUtil.generateImageAndUploadOss(content, 100, 100, 0, ossConfig);
             responseEntity = new ResponseEntity<>(result, HttpStatus.OK);

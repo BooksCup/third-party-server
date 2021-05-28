@@ -5,6 +5,7 @@ import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.config.OcrConfig;
 import com.bc.third.party.server.entity.ocr.BusinessCard;
+import com.bc.third.party.server.enums.ConfigKeyEnum;
 import com.bc.third.party.server.mapper.ThirdPartyMapper;
 import com.bc.third.party.server.service.OcrService;
 import com.bc.third.party.server.utils.HttpUtil;
@@ -39,7 +40,7 @@ public class OcrServiceImpl implements OcrService {
     @Override
     public BusinessCard getBusinessCardInfo(String imageUrl) {
         BusinessCard businessCard;
-        ThirdPartyConfig thirdPartyConfig = thirdPartyMapper.getThirdPartyConfig(Constant.CONFIG_KEY_OCR);
+        ThirdPartyConfig thirdPartyConfig = thirdPartyMapper.getThirdPartyConfig(ConfigKeyEnum.OCR.getCode());
         OcrConfig ocrConfig = JSON.parseObject(thirdPartyConfig.getValue(), OcrConfig.class);
         String url = "http://dm-57.data.aliyun.com/rest/160601/ocr/ocr_business_card.json";
         try {

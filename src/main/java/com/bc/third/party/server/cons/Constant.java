@@ -8,7 +8,7 @@ package com.bc.third.party.server.cons;
 public class Constant {
 
     /**
-     * 初始化hashmap容量
+     * 初始化hashMap容量
      */
     public static final int DEFAULT_HASH_MAP_CAPACITY = 16;
 
@@ -41,31 +41,5 @@ public class Constant {
      * 默认分页大小
      */
     public static final String DEFAULT_PAGE_SIZE = "10";
-
-    // 配置key
-    /**
-     * 天眼查
-     */
-    public static final String CONFIG_KEY_TIANYANCHA = "TIANYANCHA";
-
-    /**
-     * 快递100
-     */
-    public static final String CONFIG_KEY_KUAIDI100 = "KUAIDI100";
-
-    /**
-     * 飞鹅打印机
-     */
-    public static final String CONFIG_KEY_FEIE = "FEIE";
-
-    /**
-     * OSS
-     */
-    public static final String CONFIG_KEY_OSS = "OSS";
-
-    /**
-     * 文字识别
-     */
-    public static final String CONFIG_KEY_OCR = "OCR";
 
 }

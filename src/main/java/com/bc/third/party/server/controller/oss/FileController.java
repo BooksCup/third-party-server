@@ -1,9 +1,9 @@
 package com.bc.third.party.server.controller.oss;
 
 import com.alibaba.fastjson.JSON;
-import com.bc.third.party.server.cons.Constant;
 import com.bc.third.party.server.entity.ThirdPartyConfig;
 import com.bc.third.party.server.entity.config.OssConfig;
+import com.bc.third.party.server.enums.ConfigKeyEnum;
 import com.bc.third.party.server.service.ThirdPartyService;
 import com.bc.third.party.server.utils.FileUtil;
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class FileController {
     public ResponseEntity<List<String>> uploadMultipartFile(HttpServletRequest request) {
         ResponseEntity<List<String>> responseEntity;
         try {
-            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(Constant.CONFIG_KEY_OSS);
+            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(ConfigKeyEnum.OSS.getCode());
             OssConfig ossConfig = JSON.parseObject(thirdPartyConfig.getValue(), OssConfig.class);
 
             List<String> fileNameList = fileUtil.uploadMultipartFile(request, ossConfig);

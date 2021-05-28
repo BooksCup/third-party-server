@@ -7,6 +7,7 @@ import com.bc.third.party.server.entity.ThirdPartyDic;
 import com.bc.third.party.server.entity.config.FeieConfig;
 import com.bc.third.party.server.entity.config.Kuaidi100Config;
 import com.bc.third.party.server.entity.config.TycConfig;
+import com.bc.third.party.server.enums.ConfigKeyEnum;
 import com.bc.third.party.server.enums.ResponseMsg;
 import com.bc.third.party.server.service.SystemConfigService;
 import com.bc.third.party.server.service.ThirdPartyService;
@@ -60,23 +61,19 @@ public class ThirdPartyController {
         ResponseEntity<String> responseEntity;
         try {
             String value;
-            switch (configType) {
-                case Constant.CONFIG_KEY_TIANYANCHA:
-                    TycConfig tycConfig = new TycConfig(token);
-                    value = JSON.toJSONString(tycConfig);
-                    break;
-                case Constant.CONFIG_KEY_KUAIDI100:
-                    Kuaidi100Config kuaidi100Config = new Kuaidi100Config(key, customer);
-                    value = JSON.toJSONString(kuaidi100Config);
-                    break;
-                case Constant.CONFIG_KEY_FEIE:
-                    FeieConfig feieConfig = new FeieConfig(user, key);
-                    value = JSON.toJSONString(feieConfig);
-                    break;
-                default:
-                    value = "";
-                    break;
+            if (configType.equals(ConfigKeyEnum.TIANYANCHA.getCode())) {
+                TycConfig tycConfig = new TycConfig(token);
+                value = JSON.toJSONString(tycConfig);
+            } else if (configType.equals(ConfigKeyEnum.KUAIDI100.getCode())) {
+                Kuaidi100Config kuaidi100Config = new Kuaidi100Config(key, customer);
+                value = JSON.toJSONString(kuaidi100Config);
+            } else if (configType.equals(ConfigKeyEnum.FEIE.getCode())) {
+                FeieConfig feieConfig = new FeieConfig(user, key);
+                value = JSON.toJSONString(feieConfig);
+            } else {
+                value = "";
             }
+
             ThirdPartyConfig thirdPartyConfig = new ThirdPartyConfig(configType, value);
             thirdPartyService.addThirdPartyConfig(thirdPartyConfig);
 
@@ -132,23 +129,20 @@ public class ThirdPartyController {
         try {
             ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfigByConfigId(configId);
             String value;
-            switch (thirdPartyConfig.getKey()) {
-                case Constant.CONFIG_KEY_TIANYANCHA:
-                    TycConfig tycConfig = new TycConfig(token);
-                    value = JSON.toJSONString(tycConfig);
-                    break;
-                case Constant.CONFIG_KEY_KUAIDI100:
-                    Kuaidi100Config kuaidi100Config = new Kuaidi100Config(key, customer);
-                    value = JSON.toJSONString(kuaidi100Config);
-                    break;
-                case Constant.CONFIG_KEY_FEIE:
-                    FeieConfig feieConfig = new FeieConfig(user, key);
-                    value = JSON.toJSONString(feieConfig);
-                    break;
-                default:
-                    value = "";
-                    break;
+
+            if (thirdPartyConfig.getKey().equals(ConfigKeyEnum.TIANYANCHA.getCode())) {
+                TycConfig tycConfig = new TycConfig(token);
+                value = JSON.toJSONString(tycConfig);
+            } else if (thirdPartyConfig.getKey().equals(ConfigKeyEnum.KUAIDI100.getCode())) {
+                Kuaidi100Config kuaidi100Config = new Kuaidi100Config(key, customer);
+                value = JSON.toJSONString(kuaidi100Config);
+            } else if (thirdPartyConfig.getKey().equals(ConfigKeyEnum.FEIE.getCode())) {
+                FeieConfig feieConfig = new FeieConfig(user, key);
+                value = JSON.toJSONString(feieConfig);
+            } else {
+                value = "";
             }
+
             thirdPartyConfig.setValue(value);
             thirdPartyService.updateThirdPartyConfig(thirdPartyConfig);
             responseEntity = new ResponseEntity<>(ResponseMsg.UPDATE_THIRD_PARTY_CONFIG_SUCCESS.getResponseCode(), HttpStatus.OK);
