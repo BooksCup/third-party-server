@@ -52,6 +52,46 @@ public class BigDecimalUtil {
     }
 
     /**
+     * 对多个数求差，至少两个数
+     * 非数字参数当0处理
+     *
+     * @param number1 第一个数
+     * @param number2 第二个数
+     * @param numberN 第N个数
+     * @return 差
+     */
+    public BigDecimal subtract(Object number1, Object number2, Object... numberN) {
+        BigDecimal bigDecimal1 = object2BigDecimal(number1);
+        BigDecimal bigDecimal2 = object2BigDecimal(number2);
+        BigDecimal result = bigDecimal1.subtract(bigDecimal2);
+        for (Object number : numberN) {
+            BigDecimal bigDecimal = object2BigDecimal(number);
+            result = result.subtract(bigDecimal);
+        }
+        return result.setScale(scale, roundingMode).stripTrailingZeros();
+    }
+
+    /**
+     * 对多个数求积，至少两个数
+     * 非数字参数当0处理
+     *
+     * @param number1 第一个数
+     * @param number2 第二个数
+     * @param numberN 第N个数
+     * @return 积
+     */
+    public BigDecimal multiply(Object number1, Object number2, Object... numberN) {
+        BigDecimal bigDecimal1 = object2BigDecimal(number1);
+        BigDecimal bigDecimal2 = object2BigDecimal(number2);
+        BigDecimal result = bigDecimal1.multiply(bigDecimal2);
+        for (Object number : numberN) {
+            BigDecimal bigDecimal = object2BigDecimal(number);
+            result = result.multiply(bigDecimal);
+        }
+        return result.setScale(scale, roundingMode).stripTrailingZeros();
+    }
+
+    /**
      * 多个数相除，至少两个数
      *
      * @param number1 被除数
