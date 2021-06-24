@@ -134,4 +134,47 @@ public class FeiePrinterController {
         return responseEntity;
     }
 
+    /**
+     * 标签打印机打印订单(模板2)
+     *
+     * @param sn 打印机编号
+     * @return ResponseEntity
+     */
+    @ApiOperation(value = "标签打印机打印订单(模板2)", notes = "标签打印机打印订单(模板2)")
+    @PostMapping(value = "/template2")
+    public ResponseEntity<String> printTemplate2(
+            @RequestParam String sn) {
+        ResponseEntity<String> responseEntity;
+        try {
+            ThirdPartyConfig thirdPartyConfig = thirdPartyService.getThirdPartyConfig(ConfigKeyEnum.FEIE.getCode());
+            FeieConfig feieConfig = JSON.parseObject(thirdPartyConfig.getValue(), FeieConfig.class);
+
+            String user = feieConfig.getUser();
+            String ukey = feieConfig.getKey();
+            String stime = Long.toString(System.currentTimeMillis() / 1000L);
+            String sig = DigestUtils.sha1Hex(user + ukey + stime);
+
+            Map<String, String> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            paramMap.put("user", user);
+            paramMap.put("stime", stime);
+            paramMap.put("sig", sig);
+
+            paramMap.put("apiname", "Open_printLabelMsg");
+            paramMap.put("sn", sn);
+
+
+            StringBuffer contentBuffer = new StringBuffer();
+            contentBuffer.append("<TEXT x=\"10\" y=\"100\" h=\"80\" s=\"1\" r=\"0\" n=\"1\" w=\"1\">测试打印</TEXT>");
+            paramMap.put("content", contentBuffer.toString());
+            logger.info("[printTemplate2], content.size: " + contentBuffer.length());
+            paramMap.put("debug", "1");
+            HttpUtil.doPost(URL, paramMap);
+            responseEntity = new ResponseEntity<>(ResponseMsg.PRINT_TEMPLATE_SUCCESS.getResponseCode(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(ResponseMsg.PRINT_TEMPLATE_ERROR.getResponseCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
 }

@@ -12,8 +12,6 @@ public class Constant {
      */
     public static final int DEFAULT_HASH_MAP_CAPACITY = 16;
 
-    public static final String NOTIFY_TYPE_SMS = "SMS";
-
     // 短信回执处理状态
     /**
      * 短信回执处理状态 - 待处理

@@ -27,4 +27,5 @@ public class Application {
         factory.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> connector.setProperty("relaxedQueryChars", "|{}[]\\"));
         return factory;
     }
+
 }
