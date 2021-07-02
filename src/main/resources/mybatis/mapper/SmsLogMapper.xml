@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.third.party.server.mapper.SmsLogMapper">
+
+    <resultMap id="smsLog" type="com.bc.third.party.server.entity.alisms.SmsLog">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="message" property="message" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="send_date" property="sendDate" jdbcType="VARCHAR"/>
+        <result column="receive_date" property="receiveDate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getSmsLogList" parameterType="map" resultMap="smsLog">
+        select *
+        from t_sms_log
+        order by create_time desc
+    </select>
+
+</mapper>
