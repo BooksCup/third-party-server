@@ -32,6 +32,9 @@ public enum ResponseMsg {
 
     PRINT_TEMPLATE_SUCCESS("PRINT_TEMPLATE_SUCCESS", "打印模板成功"),
     PRINT_TEMPLATE_ERROR("PRINT_TEMPLATE_ERROR", "打印模板成功"),
+
+    ADD_SUCCESS("ADD_SUCCESS", "新增成功"),
+    ADD_ERROR("ADD_ERROR", "新增失败"),
     ;
 
     ResponseMsg(String responseCode, String responseMessage) {

@@ -16,6 +16,10 @@
     <select id="getSmsLogList" parameterType="map" resultMap="smsLog">
         select *
         from t_sms_log
+        where 1 = 1
+        <if test="phone != null and phone != ''">
+            and phone = #{phone}
+        </if>
         order by create_time desc
     </select>
 

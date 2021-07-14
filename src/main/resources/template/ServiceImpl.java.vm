@@ -1,0 +1,32 @@
+package ${package}.service;
+
+import ${package}.entity.${className};
+import ${package}.mapper.${className}Mapper;
+import ${package}.service.${className}Service;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service("${classname}Service")
+public class ${className}ServiceImpl implements ${className}Service {
+
+    @Resource
+    ${className}Mapper ${classname}Mapper;
+
+    /**
+     * 新增${comments}
+     *
+     * @param ${classname} ${comments}
+     */
+    @Override
+    public void add${className}(${className} ${classname}) {
+        ${classname}Mapper.add${className}(${classname});
+    }
+
+}

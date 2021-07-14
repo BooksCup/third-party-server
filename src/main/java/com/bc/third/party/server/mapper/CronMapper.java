@@ -1,6 +1,5 @@
 package com.bc.third.party.server.mapper;
 
-
 import com.bc.third.party.server.entity.Cron;
 
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.List;
  * @author zhou
  */
 public interface CronMapper {
+
     /**
      * 获取所有定时任务列表
      *
@@ -25,4 +25,5 @@ public interface CronMapper {
      * @return 定时任务
      */
     Cron getCronById(String cronId);
+
 }

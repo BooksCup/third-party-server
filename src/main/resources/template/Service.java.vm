@@ -1,0 +1,20 @@
+package ${package}.service;
+
+import ${package}.entity.${className};
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+
+    /**
+     * 新增${comments}
+     *
+     * @param ${classname} ${comments}
+     */
+    void add${className}(${className} ${classname});
+
+}

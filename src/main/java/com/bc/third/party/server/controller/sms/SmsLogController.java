@@ -28,6 +28,7 @@ public class SmsLogController {
     /**
      * 获取短信发送日志分页信息
      *
+     * @param phone 手机号
      * @param page  当前分页数
      * @param limit 分页大小
      * @return 短信发送日志分页信息
@@ -36,11 +37,13 @@ public class SmsLogController {
     @GetMapping(value = "")
     @CrossOrigin
     public ResponseEntity<PageInfo<SmsLog>> getSmsLogPageInfo(
+            @RequestParam(required = false) String phone,
             @RequestParam Integer page,
             @RequestParam Integer limit) {
         ResponseEntity<PageInfo<SmsLog>> responseEntity;
         try {
             Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            paramMap.put("phone", phone);
             PageInfo<SmsLog> regionPageInfo = smsLogService.getSmsLogPageInfo(page, limit, paramMap);
             responseEntity = new ResponseEntity<>(regionPageInfo, HttpStatus.OK);
         } catch (Exception e) {
